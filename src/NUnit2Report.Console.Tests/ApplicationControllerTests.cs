@@ -113,7 +113,7 @@ namespace NUnit2Report.Console.Tests
 
             reportPath = reportPath.Replace("file:\\", string.Empty);
 
-            File.Exists(reportPath).Should().BeTrue();
+            File.Exists(reportPath).Should().BeTrue().And.BeFalse();
         }
 
         [Test]
