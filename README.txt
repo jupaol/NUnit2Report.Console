@@ -1,3 +1,7 @@
+NUnit2Report Console is a tool to transform the NUnit xml results file to an Html user-friendly report using XSL files, the tool was originally designed to be integrated with NAnt as a NAnt task and it was created by Gilles Bayon. This version converts the original NUnittoReportTask to a console version to be able to use it freely without the use of NAnt.
+
+This tool is avalaible as a Nuget package: "NUnit2Report.Console.Runner"
+
 This is a translation from NUnit2ReportTask.cs
 
 The purpose is to create a Console version from: "NUnit2ReportTask"
