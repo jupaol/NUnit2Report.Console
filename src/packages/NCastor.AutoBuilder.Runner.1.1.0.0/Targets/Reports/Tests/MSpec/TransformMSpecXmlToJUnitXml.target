@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="TransformMSpecXmlToJUnitXml.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <TransformMSpecXmlToJUnitXmlDependsOn>
+      BeforeTransformMSpecXmlToJUnitXml;
+      CoreTransformMSpecXmlToJUnitXml;
+      AfterTransformMSpecXmlToJUnitXml;
+    </TransformMSpecXmlToJUnitXmlDependsOn>
+  </PropertyGroup>
+
+  <Target Name="TransformMSpecXmlToJUnitXml" DependsOnTargets="$(TransformMSpecXmlToJUnitXmlDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeTransformMSpecXmlToJUnitXml" />
+  <Target Name="AfterTransformMSpecXmlToJUnitXml" />
+
+  <Target Name="CoreTransformMSpecXmlToJUnitXml" >
+
+    <PropertyGroup>
+      <_MSpec_JUnit_XSD>$(NCastorToolsPath)\MSpecToJUnit.xslt</_MSpec_JUnit_XSD>
+    </PropertyGroup>
+    
+    <Error ContinueOnError="false" Text="The JUnit report file path representing the MSpec results  was not specified" Condition="$(MspecReportInJUnitFormatFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The MSpec XML report was not specified" Condition="$(MSpecXmlReportFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The MSpec XML report was not found" Condition="!Exists($(MSpecXmlReportFilePath))" />
+    <Error ContinueOnError="false" Text="The XSD file used to transform the MSpec results in a JUnit format was not found" Condition="!Exists($(_MSpec_JUnit_XSD))" />
+    
+    <Microsoft.Sdc.Tasks.Xml.XslTransform 
+      XslFile="$(_MSpec_JUnit_XSD)" 
+      XmlFile="$(MSpecXmlReportFilePath)" 
+      ResultFile="$(MspecReportInJUnitFormatFilePath)" />
+
+  </Target>
+  
+</Project>

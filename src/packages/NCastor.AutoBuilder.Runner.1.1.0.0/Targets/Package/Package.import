@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="Package.import" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="CreatePackages.target"/>
+  
+  <Import Project="Zip\SourceCode\CleanSourceCodeArtefacts.target" />
+  <Import Project="Zip\SourceCode\IsolateSourceCode.target"/>
+  <Import Project="Zip\SourceCode\PackageSourceCode.target"/>
+  
+  <Import Project="Zip\Build\PackageBuild.target"/>
+  <Import Project="Zip\Build\PackageSpecialProjects.target"/>
+
+  <Import Project="Zip\TestAssemblies\PackageTestAssemblies.target"/>
+  
+  <Import Project="Zip\TestsReports\MSpec\PackageMSpecTestReports.target"/>
+  <Import Project="Zip\TestsReports\MSTest\PackageMSTestTestReports.target"/>
+  <Import Project="Zip\TestsReports\NUnit\PackageNUnitTestReports.target"/>
+
+  <Import Project="Zip\ClickOncePublishedFiles\PackageClickOnceArtefacts.target"/>
+
+  <Import Project="Nuget\PrepareNugetPackages.target"/>
+  <Import Project="Nuget\ValidateNugetPackages.target"/>
+  <Import Project="Nuget\PackageNugets.target"/>
+
+  <Import Project="ClickOnce\PrepareClickOncePackages.target"/>
+  <Import Project="ClickOnce\ValidateClickOncePackages.target"/>
+  <Import Project="ClickOnce\CleanClickOncePackageArtefacts.target"/>
+  <Import Project="ClickOnce\CreateClickOncePackageArtefacts.target"/>
+  <Import Project="ClickOnce\CreateClickOncePackages.target"/>
+
+</Project>

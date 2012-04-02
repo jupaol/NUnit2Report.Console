@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="PrepareClickOncePackages.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PrepareClickOncePackagesDependsOn>
+      BeforePrepareClickOncePackages;
+      CorePrepareClickOncePackages;
+      AfterPrepareClickOncePackages;
+    </PrepareClickOncePackagesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PrepareClickOncePackages" DependsOnTargets="$(PrepareClickOncePackagesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforePrepareClickOncePackages" />
+  <Target Name="AfterPrepareClickOncePackages" />
+
+  <Target Name="CorePrepareClickOncePackages" />
+  
+</Project>

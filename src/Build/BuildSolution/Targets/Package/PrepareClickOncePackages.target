@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your Prepare ClickOnce package targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your Prepare ClickOnce package targets-->
+
+  <!--<Target Name="CorePrepareClickOncePackages">
+
+    <ItemGroup>
+      <ClickOnceProjects Include="$(SolutionsPath)\My ClickOnce Proj\My ClickOnce Proj.csproj">
+        <DestinationPath>$(DropsPath)\My ClickOnce Proj - Publish</DestinationPath>
+        <WorkingDirectoryPath>$(WorkingDirectoryPath)\My ClickOnce Proj - ClickOnce tmp</WorkingDirectoryPath>
+        <ExtraProperties></ExtraProperties>
+      </ClickOnceProjects>
+    </ItemGroup>
+
+  </Target>-->
+
+</Project>

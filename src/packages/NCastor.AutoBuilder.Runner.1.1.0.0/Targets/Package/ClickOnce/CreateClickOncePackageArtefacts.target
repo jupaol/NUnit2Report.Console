@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateClickOncePackageArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateClickOncePackageArtefactsDependsOn>
+      BeforeCreateClickOncePackageArtefacts;
+      CoreCreateClickOncePackageArtefacts;
+      AfterCreateClickOncePackageArtefacts;
+    </CreateClickOncePackageArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateClickOncePackageArtefacts" DependsOnTargets="$(CreateClickOncePackageArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateClickOncePackageArtefacts" />
+  <Target Name="AfterCreateClickOncePackageArtefacts" />
+
+  <Target Name="CoreCreateClickOncePackageArtefacts" >
+
+    <MakeDir Condition="!Exists(%(ClickOnceProjects.DestinationPath))" Directories="%(ClickOnceProjects.DestinationPath)" />
+    <MakeDir Condition="!Exists(%(ClickOnceProjects.WorkingDirectoryPath))" Directories="%(ClickOnceProjects.WorkingDirectoryPath)" />
+    
+  </Target>
+
+</Project>

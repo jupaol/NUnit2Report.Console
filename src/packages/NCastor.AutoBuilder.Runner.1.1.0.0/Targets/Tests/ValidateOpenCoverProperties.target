@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ValidateOpenCoverProperties.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateOpenCoverPropertiesDependsOn>
+      BeforeValidateOpenCoverProperties;
+      CoreValidateOpenCoverProperties;
+      AfterValidateOpenCoverProperties;
+    </ValidateOpenCoverPropertiesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateOpenCoverProperties" DependsOnTargets="$(ValidateOpenCoverPropertiesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateOpenCoverProperties" />
+  <Target Name="AfterValidateOpenCoverProperties" />
+
+  <Target Name="CoreValidateOpenCoverProperties" >
+
+    <Error ContinueOnError="false" Text="The open cover runner was not specified" Condition="$(OpenCoverRunner) == ''" />
+    <Error ContinueOnError="false" Text="The open cover runner was not found" Condition="!Exists($(OpenCoverRunner))" />
+
+    <Error ContinueOnError="false" Text="The Assemblies to instrument were not specified" Condition="@(AssembliesToInstrument) == ''" />
+    <Error ContinueOnError="false" Text="The Assembly to instrument was not found" Condition="!Exists(%(AssembliesToInstrument.Identity))" />
+    
+    
+  </Target>
+  
+</Project>

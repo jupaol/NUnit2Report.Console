@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateMSTestReport.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateMSTestReportDependsOn>
+      BeforeCreateMSTestReport;
+      CoreCreateMSTestReport;
+      AfterCreateMSTestReport;
+    </CreateMSTestReportDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateMSTestReport" DependsOnTargets="$(CreateMSTestReportDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateMSTestReport" />
+  <Target Name="AfterCreateMSTestReport" />
+
+  <Target Name="CoreCreateMSTestReport" >
+
+    <ItemGroup>
+      <__MSTestReportFileName Include="$(MSTestReportFilePath)" />
+    </ItemGroup>
+
+    <Exec WorkingDirectory="$(MSTestResultsPath)" Command='"$(MSTestReportGeneratorRunner)" %(__MSTestReportFileName.FileName)%(__MSTestReportFileName.Extension)' ContinueOnError="false" />
+    
+  </Target>
+  
+</Project>

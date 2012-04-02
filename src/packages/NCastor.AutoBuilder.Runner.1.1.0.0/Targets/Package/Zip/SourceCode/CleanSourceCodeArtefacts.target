@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanSourceCodeArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanSourceCodeArtefactsDependsOn>
+      BeforeCleanSourceCodeArtefacts;
+      CoreCleanSourceCodeArtefacts;
+      AfterCleanSourceCodeArtefacts;
+    </CleanSourceCodeArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanSourceCodeArtefacts" DependsOnTargets="$(CleanSourceCodeArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanSourceCodeArtefacts" />
+  <Target Name="AfterCleanSourceCodeArtefacts" />
+
+  <Target Name="CoreCleanSourceCodeArtefacts" >
+
+    <Error ContinueOnError="false" Text="The source code tmp path was not specified" Condition="$(SourceCodeTmpPath) == ''" />
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(SourceCodeTmpPath)" 
+      ContinueOnError="false" 
+      Condition="Exists('$(SourceCodeTmpPath)')" />
+    <RemoveDir ContinueOnError="false" Directories="$(SourceCodeTmpPath)" Condition="Exists($(SourceCodeTmpPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+    
+    <Error ContinueOnError="false" Text="There was a problem while deleting the source code tmp directory. Please try again" Condition="Exists($(SourceCodeTmpPath))" />
+
+  </Target>
+
+</Project>

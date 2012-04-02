@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your Prepare Nuget package targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your Prepare Nuget package targets-->
+
+  <!--
+    We will use as references the examples provided in the BuildSpecialProjects targets:
+      MyNugetPackageOutputPath
+      AnotherNugetPackageOutputPath
+  -->
+
+  <!--
+  The "CorePrepareNugetPackages" is the target that should be overriden
+  <Target 
+    Name="CorePrepareNugetPackages" 
+    DependsOnTargets="
+          PrepareMyNugetPackage;
+          PrepareAnotherNugetPackage;" />
+
+  <Target Name="PrepareMyNugetPackage">
+
+    Since we specified this project as an special project, we already have the output of that project ready to be customized
+    Deleting files we do nto want to include in the Nuget package
+    <Delete Files="$(MyNugetPackageOutputPath)\*.tmp" />
+
+    Adding important files to the Nuget package
+    <MSBuild.ExtensionPack.FileSystem.RoboCopy
+      Source="$(GlobalRootPath)"
+      Destination="$(MyNugetPackageOutputPath)"
+      Files="*.md;"/>
+
+    Here we specify the properties used to create the Nuget package (The output is automatically set to the $(DropsPath))
+    <ItemGroup>
+      <NugetPackages Include="MyNugetPackage.nuspec">
+        <SourcePath>$(MyNugetPackageOutputPath)</SourcePath>
+        <ExtraOptions></ExtraOptions>
+        <Version>$(SemanticVersion)</Version>
+      </NugetPackages>
+    </ItemGroup>
+    In the "ExtraOptions" metadata, you can specify Nuget console custom commands
+
+  </Target>
+
+  Creating another Nuget
+  <Target Name="PrepareAnotherNugetPackage">
+
+    <Delete Files="$(AnotherNugetPackageOutputPath)\useless.file.tmp" />
+
+    <ItemGroup>
+      <NugetPackages Include="AnotherNugetPackage.nuspec">
+        <SourcePath>$(AnotherNugetPackageOutputPath)</SourcePath>
+        <ExtraOptions></ExtraOptions>
+        <Version>$(SemanticVersion)</Version>
+      </NugetPackages>
+    </ItemGroup>
+
+  </Target>
+  -->
+
+</Project>

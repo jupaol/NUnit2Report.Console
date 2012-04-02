@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="RunMSpecWithOpenCover.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RunMSpecWithOpenCoverDependsOn>
+      SettingMSpecTestingAssemblies;
+      SettingInstrumentationAssemblies;
+      ValidateMSpecProperties;
+      ValidateOpenCoverProperties;
+      CleanMSpecArtefactFolders;
+      CreateMSpecArtefactFolders;
+      BeforeRunMSpecWithOpenCover;
+      CoreRunMSpecWithOpenCover;
+      AfterRunMSpecWithOpenCover;
+      TransformMSpecXmlToJUnitXml;
+    </RunMSpecWithOpenCoverDependsOn>
+  </PropertyGroup>
+
+  <Target Name="RunMSpecWithOpenCover" DependsOnTargets="$(RunMSpecWithOpenCoverDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeRunMSpecWithOpenCover" />
+  <Target Name="AfterRunMSpecWithOpenCover" />
+
+  <Target Name="CoreRunMSpecWithOpenCover" >
+
+    <Error ContinueOnError="false" Text="The OpenCover MSpec results file was not specified" Condition="$(OpenCoverMSpec_ReportFilePath) == ''" />
+
+    <ItemGroup>
+      <_AssembliesToInstrumentWithOpenCoverMSpec Include="@(AssembliesToInstrument->'+[%(FileName)]*')" />
+      <_MSpecAssembliesToRunCodeCoverage Include="@(MSpecAssemblies->'\&quot;%(Identity)\&quot;')" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_MSpecCommand>-target:"$(MSPecRunner)" -targetargs:"--xml \&quot;$(MSpecXmlReportFilePath)\&quot; --html \&quot;$(MSpecHtmlReporthFilePath)\&quot; @(_MSpecAssembliesToRunCodeCoverage, ' ') $(MSpecRunnerWithOpenCoverArguments)"</_MSpecCommand>
+      <_CommonOpenCoverArgs>&quot;$(OpenCoverRunner)&quot; -targetdir:&quot;$(TestAssembliesPath)&quot; $(OpenCoverRunnerArgumentsForMSpec) -filter:&quot;@(_AssembliesToInstrumentWithOpenCoverMSpec, ' ')&quot; -output:&quot;$(OpenCoverMSpec_ReportFilePath)&quot;</_CommonOpenCoverArgs>
+    </PropertyGroup>
+
+    <Exec ContinueOnError="true" Command="$(_CommonOpenCoverArgs) $(_MSpecCommand)">
+      <Output TaskParameter="exitcode" ItemName="ErrorsOcurredWhenRunningMSpecTests"/>
+    </Exec>
+
+  </Target>
+  
+</Project>

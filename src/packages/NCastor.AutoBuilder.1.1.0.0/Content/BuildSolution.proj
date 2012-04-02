@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+"Your Stuff"
+
+This file is the entry point of your build process, this file imports "Your Stuff" the auto generated MSBuild scripts.
+
+Remember that MSBuild scripts are evaluated sequentially so the order in which you import the projects it's important
+because some properties declared in nested MSBuild scripts totally depend on the properties declared in the 
+preceding scripts
+-->
+
+<Project DefaultTargets="BuildLite" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Importing  Initial properties -->
+  <Import Project="Properties\Init.properties"/>
+
+  <!-- Importing NCastor Global properties -->
+  <Import Project="$(NCastorPath)\GlobalProperties.import"/>
+
+  <!-- Importing third party tasks -->
+  <Import Project="$(NCastorPath)\GlobalTasks.import"/>
+
+  <!-- IUmporting NCastor targets -->
+  <Import Project="$(NCastorPath)\GlobalTargets.import"/>
+
+  <!-- Importing Custom properties  -->
+  <Import Project="Properties\Properties.import"/>
+
+  <!-- Importing Custom tasks -->
+  <Import Project="Tasks\Tasks.import"/>
+
+  <!-- Importing Custom targets -->
+  <Import Project="Targets\Targets.import"/>
+
+</Project>

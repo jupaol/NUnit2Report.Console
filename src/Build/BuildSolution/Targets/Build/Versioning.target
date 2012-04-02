@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your custom versioning targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your versioning targets-->
+
+  <!--Examples-->
+  <!--<Target Name="CoreCalculateBuildVersion" DependsOnTargets="BuildVersionHudson;" />-->
+  <!--<Target Name="CoreCalculateRevisionVersion" DependsOnTargets="RevisionVersionHudsonSvn" />-->
+
+  <!--Custom calculation example:-->
+
+  <!--<Target Name="CoreCalculateBuildVersion">
+    <PropertyGroup>
+      <BuildVersion>$(MyCalculatedBuildVersion)</BuildVersion>
+    </PropertyGroup>
+  </Target>-->
+
+  <!--<Target Name="CoreCalculateRevisionVersion">
+    <PropertyGroup>
+      <RevisionVersion>$(MyCalculatedRevisionVersion)</RevisionVersion>
+    </PropertyGroup>
+  </Target>-->
+
+</Project>

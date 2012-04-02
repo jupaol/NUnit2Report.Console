@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your custom test targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your custom test targets-->
+
+  <!--<Target Name="CoreSettingInstrumentationAssemblies">
+    <ItemGroup>
+      <AssembliesToInstrument Include="
+                                        $(TestAssembliesPath)\MyDomain.dll;
+                                        $(TestAssembliesPath)\MyServices.dll;" />
+    </ItemGroup>
+  </Target>-->
+
+</Project>

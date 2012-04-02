@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your custom Package targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your custom Package targets-->
+
+  <Target Name="BeforePackageSpecialProjects">
+    <PropertyGroup>
+      <TMP_NUnitReport_JustTestingPurpose>$(NUnit2ReportConsoleOutputPath)\NUnitReport.xml</TMP_NUnitReport_JustTestingPurpose>
+    </PropertyGroup>
+
+    <Delete Files="$(TMP_NUnitReport_JustTestingPurpose)" Condition="Exists($(TMP_NUnitReport_JustTestingPurpose))" />
+  </Target>
+
+</Project>

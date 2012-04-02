@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="SettingMSpecTestingAssemblies.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SettingMSpecTestingAssembliesDependsOn>
+      BeforeSettingMSpecTestingAssemblies;
+      CoreSettingMSpecTestingAssemblies;
+      AfterSettingMSpecTestingAssemblies;
+    </SettingMSpecTestingAssembliesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="SettingMSpecTestingAssemblies" DependsOnTargets="$(SettingMSpecTestingAssembliesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeSettingMSpecTestingAssemblies" />
+  <Target Name="AfterSettingMSpecTestingAssemblies" />
+
+  <Target Name="CoreSettingMSpecTestingAssemblies" />
+  
+</Project>

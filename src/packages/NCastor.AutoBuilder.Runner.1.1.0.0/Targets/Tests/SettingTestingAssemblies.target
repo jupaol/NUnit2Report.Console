@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="SettingTestingAssemblies.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SettingTestingAssembliesDependsOn>
+      CleanTestAssembliesArtefacts;
+      CreateTestAssembliesArtefacts;
+      BeforeSettingTestingAssemblies;
+      CoreSettingTestingAssemblies;
+      AfterSettingTestingAssemblies;
+    </SettingTestingAssembliesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="SettingTestingAssemblies" DependsOnTargets="$(SettingTestingAssembliesDependsOn)" Condition="$(TestAssembliesPath) != $(BuildingPath)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeSettingTestingAssemblies" />
+  <Target Name="AfterSettingTestingAssemblies" />
+
+  <Target Name="CoreSettingTestingAssemblies" >
+
+    <MSBuild.ExtensionPack.FileSystem.RoboCopy
+      Source="$(BuildingPath)"
+      Destination="$(TestAssembliesPath)"
+      Files="*.*;"
+      Options="/MIR"/>
+
+  </Target>
+  
+</Project>

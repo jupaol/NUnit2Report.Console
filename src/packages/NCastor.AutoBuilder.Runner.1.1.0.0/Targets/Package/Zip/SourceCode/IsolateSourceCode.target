@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="IsolateSourceCode.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <IsolateSourceCodeDependsOn>
+      CleanSourceCodeArtefacts;
+      BeforeIsolateSourceCode;
+      CoreIsolateSourceCode;
+      AfterIsolateSourceCode;
+    </IsolateSourceCodeDependsOn>
+  </PropertyGroup>
+
+  <Target Name="IsolateSourceCode" DependsOnTargets="$(IsolateSourceCodeDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeIsolateSourceCode"  />
+  <Target Name="AfterIsolateSourceCode" />
+
+  <Target Name="CoreIsolateSourceCode" >
+
+    <ItemGroup>
+      <SourceFilesToCopy
+            Include=" $(SolutionsPath)\**\*.*;"
+            Exclude=" $(SolutionsPath)\**\bin\**;
+                      $(SolutionsPath)\**\.svn\**;
+                      $(SolutionsPath)\**\Logs\**;
+                      $(DropsPath)\**;
+                      $(WorkingDirectoryPath)\**;
+                      $(SolutionsPath)\**\Logs\**;
+                      $(SolutionsPath)\**\obj\**;
+                      $(SolutionsPath)\**\*.suo;
+                      $(SolutionsPath)\**\*.cache;
+                      $(SolutionsPath)\**\_ReSharper*\**;
+                      $(SolutionsPath)\**\*ReSharper*"/>
+    </ItemGroup>
+
+    <MakeDir ContinueOnError="false" Directories="$(SourceCodeTmpPath)" Condition="!Exists($(SourceCodeTmpPath))" />
+
+    <Copy SourceFiles="@(SourceFilesToCopy)" DestinationFiles="@(SourceFilesToCopy->'$(SourceCodeTmpPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    
+  </Target>
+  
+</Project>

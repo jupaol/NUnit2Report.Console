@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanClickOncePackageArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanClickOncePackageArtefactsDependsOn>
+      BeforeCleanClickOncePackageArtefacts;
+      CoreCleanClickOncePackageArtefacts;
+      AfterCleanClickOncePackageArtefacts;
+    </CleanClickOncePackageArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanClickOncePackageArtefacts" DependsOnTargets="$(CleanClickOncePackageArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanClickOncePackageArtefacts" />
+  <Target Name="AfterCleanClickOncePackageArtefacts" />
+
+  <Target Name="CoreCleanClickOncePackageArtefacts" >
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="%(ClickOnceProjects.DestinationPath)" 
+      ContinueOnError="false" 
+      Condition="Exists(%(ClickOnceProjects.DestinationPath))" />
+    <RemoveDir ContinueOnError="false" Directories="%(ClickOnceProjects.DestinationPath)" Condition="Exists(%(ClickOnceProjects.DestinationPath))" />
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="%(ClickOnceProjects.WorkingDirectoryPath)" 
+      ContinueOnError="false" 
+      Condition="Exists(%(ClickOnceProjects.WorkingDirectoryPath))" />
+    <RemoveDir ContinueOnError="false" Directories="%(ClickOnceProjects.WorkingDirectoryPath)" Condition="Exists(%(ClickOnceProjects.WorkingDirectoryPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+  </Target>
+
+</Project>

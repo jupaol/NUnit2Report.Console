@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateArtefactFolders.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateArtefactFoldersDependsOn>
+      BeforeCreateArtefactFolders;
+      CoreCreateArtefactFolders;
+      AfterCreateArtefactFolders;
+    </CreateArtefactFoldersDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateArtefactFolders" DependsOnTargets="$(CreateArtefactFoldersDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateArtefactFolders" />
+  <Target Name="AfterCreateArtefactFolders" />
+
+  <Target Name="CreateArtefactFolders">
+    
+    <MakeDir ContinueOnError="false" Directories="$(DropsPath)" Condition="!Exists($(DropsPath))" />
+    <MakeDir ContinueOnError="false" Directories="$(WorkingDirectoryPath)" Condition="!Exists($(WorkingDirectoryPath))" />
+
+  </Target>
+  
+</Project>

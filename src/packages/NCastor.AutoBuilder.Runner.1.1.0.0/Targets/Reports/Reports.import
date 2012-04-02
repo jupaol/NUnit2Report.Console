@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="Reports.import" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="Tests\MSpec\TransformMSpecXmlToJUnitXml.target"/>
+  <Import Project="Cover\CleanMSpecOpenCoverWithRGArtefacts.target"/>
+  <Import Project="Cover\CreateMSpecOpenCoverWithRGArtefacts.target"/>
+  <Import Project="Cover\ReportMSpecOpenCoverWithRG.target"/>
+  
+  <Import Project="Tests\MSTest\CreateMSTestReport.target"/>
+  <Import Project="Cover\CleanMSTestOpenCoverWithRGArtefacts.target"/>
+  <Import Project="Cover\CreateMSTestOpenCoverWithRGArtefacts.target"/>
+  <Import Project="Cover\ReportMSTestOpenCoverWithRG.target"/>
+
+  <Import Project="Cover\CleanNUnitOpenCoverWithRGArtefacts.target"/>
+  <Import Project="Cover\CreateNUnitOpenCoverWithRGArtefacts.target"/>
+  <Import Project="Cover\ReportNUnitOpenCoverWithRG.target"/>
+
+</Project>

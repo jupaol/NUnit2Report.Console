@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your targets imports
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- TODO: Import your targets imports here -->
+
+  <Import Project="Build\Versioning.target"/>
+  <Import Project="Build\Build.target"/>
+  <Import Project="Build\BuildSpecialProjects.target"/>
+  <Import Project="Build\CustomBuild.target"/>
+
+  <Import Project="Tests\MSpec.target"/>
+  <Import Project="Tests\MSTest.target"/>
+  <Import Project="Tests\NUnit.target"/>
+  <Import Project="Tests\CustomTest.target"/>
+  <Import Project="Tests\RunTests.target"/>
+
+  <Import Project="Package\PrepareNugetPackages.target"/>
+  <Import Project="Package\PrepareClickOncePackages.target"/>
+  <Import Project="Package\CustomPackages.target"/>
+  <Import Project="Package\CreatePackages.target"/>
+
+</Project>

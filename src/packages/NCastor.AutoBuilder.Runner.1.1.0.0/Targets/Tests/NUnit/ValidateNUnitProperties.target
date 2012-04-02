@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ValidateNUnitProperties.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateNUnitPropertiesDependsOn>
+      BeforeValidateNUnitProperties;
+      CoreValidateNUnitProperties;
+      AfterValidateNUnitProperties;
+    </ValidateNUnitPropertiesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateNUnitProperties" DependsOnTargets="$(ValidateNUnitPropertiesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateNUnitProperties" />
+  <Target Name="AfterValidateNUnitProperties" />
+
+  <Target Name="CoreValidateNUnitProperties" >
+
+    <Error ContinueOnError="false" Text="The NUnit results file was not specified" Condition="$(NUnitXmlReportFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The NUnit runner was not specified" Condition="$(NUnitRunner) == ''" />
+    <Error ContinueOnError="false" Text="The NUnit runner was not found" Condition="!Exists($(NUnitRunner))" />
+    <Error ContinueOnError="false" Text="The NUnit assemblies were not specified" Condition="@(NUnitAssemblies) == ''" />
+    <Error ContinueOnError="false" Text="The NUnit test assembly was not found: &quot;%(NUnitAssemblies.Identity)&quot;" Condition="!Exists(%(NUnitAssemblies.Identity))" />
+
+  </Target>
+  
+</Project>

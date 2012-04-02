@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateBuildSpecialProjectsArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateBuildSpecialProjectsArtefactsDependsOn>
+      BeforeCreateBuildSpecialProjectsArtefacts;
+      CoreCreateBuildSpecialProjectsArtefacts;
+      AfterCreateBuildSpecialProjectsArtefacts;
+    </CreateBuildSpecialProjectsArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateBuildSpecialProjectsArtefacts" DependsOnTargets="$(CreateBuildSpecialProjectsArtefactsDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateBuildSpecialProjectsArtefacts" />
+  <Target Name="AfterCreateBuildSpecialProjectsArtefacts" />
+
+  <Target Name="CoreCreateBuildSpecialProjectsArtefacts" >
+
+    <MakeDir ContinueOnError="false" Directories="%(SpecialProjects.WorkingDirectoryPath)" Condition="!Exists(%(SpecialProjects.WorkingDirectoryPath))" />
+    
+  </Target>
+  
+</Project>

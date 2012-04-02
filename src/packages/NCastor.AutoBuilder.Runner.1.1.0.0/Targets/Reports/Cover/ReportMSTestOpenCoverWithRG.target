@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ReportMSTestOpenCoverWithRG.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ReportMSTestOpenCoverWithRGDependsOn>
+      CleanMSTestOpenCoverWithRGArtefacts;
+      CreateMSTestOpenCoverWithRGArtefacts;
+      BeforeReportMSTestOpenCoverWithRG;
+      CoreReportMSTestOpenCoverWithRG;
+      AfterReportMSTestOpenCoverWithRG;
+    </ReportMSTestOpenCoverWithRGDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ReportMSTestOpenCoverWithRG" DependsOnTargets="$(ReportMSTestOpenCoverWithRGDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeReportMSTestOpenCoverWithRG" />
+  <Target Name="AfterReportMSTestOpenCoverWithRG" />
+
+  <Target Name="CoreReportMSTestOpenCoverWithRG" >
+
+    <Error ContinueOnError="false" Text="The report generator runner was not specified" Condition="$(ReportGeneratorRunner) == ''" />
+    <Error ContinueOnError="false" Text="The report generator runner was not found" Condition="!Exists($(ReportGeneratorRunner))" />
+    <Error ContinueOnError="false" Text="The OpenCover MSTest result file was not specified" Condition="$(OpenCoverMSTest_ReportFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The OpenCover MSTest result file was not found" Condition="!Exists($(OpenCoverMSTest_ReportFilePath))" />
+
+    <Exec ContinueOnError="false" Command='"$(ReportGeneratorRunner)" "$(OpenCoverMSTest_ReportFilePath)" "$(ReportGeneratorMSTestReportPath)"' />
+
+  </Target>
+
+</Project>

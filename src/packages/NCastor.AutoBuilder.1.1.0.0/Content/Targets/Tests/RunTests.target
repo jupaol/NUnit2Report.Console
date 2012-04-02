@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your RunTests custom dependencies
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- TODO: Place here your RunTests custom dependencies-->
+
+  <!--
+  This is the full dependency tree for the tests action, you can customize it but just remember there are some actions
+  that dependent from others.
+  
+    <PropertyGroup>
+    <RunTestsDependsOn>
+      BeforeRunTests;
+
+      RunNUnitTests;
+      RunMSTests;
+      RunMSpecTests;
+
+      RunNUnitWithOpenCover;
+      RunMSTestWithOpenCover;
+      RunMSpecWithOpenCover;
+
+      CoreRunTests;
+      AfterRunTests;
+      
+      PackageTestAssemblies;
+      
+      PackageNUnitTestReports;
+      PackageMSTestTestReports;
+      PackageMSpecTestReports;
+    </RunTestsDependsOn>
+  </PropertyGroup>
+  
+  The dependencies that can be safetly removed are:
+  
+      RunNUnitTests;
+      RunMSTests;
+      RunMSpecTests;
+
+      RunNUnitWithOpenCover;
+      RunMSTestWithOpenCover;
+      RunMSpecWithOpenCover;
+      
+      PackageTestAssemblies;
+      
+      PackageNUnitTestReports;
+      PackageMSTestTestReports;
+      PackageMSpecTestReports;
+      
+      CheckForTestsErrors;
+      
+      Note these tests, should be run mutually exclusive, which meand that if you want to run NUnit tests you need 
+      to specify "RunNUnitTests" or "RunNUnitWithOpenCover" bit not both
+      
+      If you specify both, the results of the previous tests will be deleted
+      
+      On the other hand you can specify one type of tests for each technology.
+      
+      *** Running tests:*** 
+      To run tests you need to override the following targets:
+      
+      "CorerSettingInstrumentationAssemblies"
+      In this target you specify the assemblies you want to instrument 
+      (only if you want to run code coverage with your tests, otherwise you do not need to override this target)
+      
+      Example
+
+      <Target Name="CorerSettingInstrumentationAssemblies">
+        <ItemGroup>
+          <AssembliesToInstrument Include="$(TestAssembliesPath)\NCastor.AutoBuilder.Console.exe;" />
+        </ItemGroup>
+      </Target>
+      
+      - Running NUnit Tests -
+      To run your NUnit tests you need to override the following target:
+      
+      "CoreSettingNUnitTestingAssemblies"
+      
+      Example:
+      
+      <Target Name="CoreSettingNUnitTestingAssemblies">
+        <ItemGroup>
+          <NUnitAssemblies Include="
+                              $(TestAssembliesPath)\NCastor.AutoBuilder.Console.Tests.dll;
+                              $(TestAssembliesPath)\NCastor.AutoBuilder.Console.Integration.Tests.dll;" />
+        </ItemGroup>
+      </Target>
+
+      - Runing MSTest Tests -
+      To run MStest tests you need to override the following target:
+      
+      "CoreSettingMSTestTestingAssemblies"
+      
+      Example:
+      
+      <Target Name="CoreSettingMSTestTestingAssemblies">
+        <ItemGroup>
+          <MSTestContainers Include="
+                              $(TestAssembliesPath)\NCastor.AutoBuilder.Console.Tests.dll;
+                              $(TestAssembliesPath)\NCastor.AutoBuilder.Console.Integration.Tests.dll;" />
+        </ItemGroup>
+      </Target>
+      
+      - Runing MSpec Tests -
+      To run MStest tests you need to override the following target:
+      
+      "CoreSettingMSpecTestingAssemblies"
+      
+      Example:
+      
+      <Target Name="CoreSettingMSpecTestingAssemblies">
+        <ItemGroup>
+          <MSpecAssemblies Include="
+                              $(TestAssembliesPath)\NCastor.AutoBuilder.Console.Tests.dll;
+                              $(TestAssembliesPath)\NCastor.AutoBuilder.Console.Integration.Tests.dll;" />
+        </ItemGroup>
+      </Target>
+
+  -->
+
+  <!--
+  Here we are overriding the default tests actions. This is to show you how you can control all the steps being executed
+  -->
+
+  <!--
+  ******* Note: *******
+  
+  Pay special attention to the following target:
+  
+  "*** CheckForTestsErrors ***"
+  
+  When the tests run, they are allowed to continue executing even if an error ocurred (usually because a test failed),
+  therefore we need a way to inform about the error at the end of the WHOLE EXECUTION OF THE BUILD which means, that this
+  target must be specified as the last task of the whole process to ensure to throw the exception to let the user know 
+  the build failed. 
+  
+  Example:
+  
+  <PropertyGroup>
+    <RunTestsLiteDependsOn>
+      CoreRunTests;
+      
+      CheckForTestsErrors;
+      
+    </RunTestsLiteDependsOn>
+  </PropertyGroup>
+  
+  If you have a custom task:
+  
+  <PropertyGroup>
+    <MyCustomFinalTaskDependsOn>
+      $(SomethingCustom);
+      CoreRunTests;
+      $(MoreCustomTargets);
+      
+      CheckForTestsErrors;
+      
+    </MyCustomFinalTaskDependsOn>
+  </PropertyGroup>  
+  <Target Name="CoreSettingMSTestTestingAssemblies" DependsOnTargets="MyCustomFinalTaskDependsOn" />
+  
+  As you can see the last task should be always the "CheckForTestsErrors" in order to inform correctly about the errors
+  ocurred.
+  The direct consecuence if you do not specify this target: simply the whole build process will end without informing
+  about any tests failed
+  
+  -->
+  
+  <PropertyGroup>
+    <RunTestsDependsOn>
+      Build;
+      SettingTestingAssemblies;
+
+      BeforeRunTests;
+
+      RunNUnitTests;
+      RunMSTests;
+      RunMSpecTests;
+
+      RunNUnitWithOpenCover;
+      RunMSTestWithOpenCover;
+      RunMSpecWithOpenCover;
+
+      ReportNUnitOpenCoverWithRG;
+      ReportMSTestOpenCoverWithRG;
+      ReportMSpecOpenCoverWithRG;
+
+      CoreRunTests;
+      AfterRunTests;
+
+      CheckForTestsErrors;
+    </RunTestsDependsOn>
+  </PropertyGroup>
+  <Target Name="RunTests" DependsOnTargets="$(RunTestsDependsOn)" />
+
+</Project>

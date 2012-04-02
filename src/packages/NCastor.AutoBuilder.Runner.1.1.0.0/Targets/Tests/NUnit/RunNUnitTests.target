@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="RunNUnitTests.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RunNUnitTestsDependsOn>
+      SettingNUnitTestingAssemblies;
+      ValidateNUnitProperties;
+      CleanNUnitArtefactFolders;
+      CreateNUnitArtefactFolders;
+      BeforeRunNUnitTests;
+      CoreRunNUnitTests;
+      AfterRunNUnitTests;
+    </RunNUnitTestsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="RunNUnitTests" DependsOnTargets="$(RunNUnitTestsDependsOn)" />
+  
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeRunNUnitTests" />
+  <Target Name="AfterRunNUnitTests" />
+
+  <Target Name="CoreRunNUnitTests" >
+
+    <ItemGroup>
+      <_NUnitAssemblies Include="@(NUnitAssemblies->'&quot;%(Identity)&quot;')" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_NUnitCommandArgs>@(_NUnitAssemblies, ' ') /result="$(NUnitXmlReportFilePath)" $(NUnitRunnerArguments)</_NUnitCommandArgs>
+    </PropertyGroup>
+
+    <Exec 
+      ContinueOnError="true"
+      Command='"$(NUnitRunner)" $(_NUnitCommandArgs)'>
+      <Output TaskParameter="exitcode" ItemName="ErrorsOcurredWhenRunningNUnitTests"/>
+    </Exec>
+    
+    <!--<MSBuild.Community.Tasks.NUnit Assemblies="@(NUnitAssemblies)"
+                                   ToolPath="$([System.IO.Directory]::GetParent($(NUnitRunner)))"
+                                   OutputXmlFile="$(NUnitXmlReportFilePath)"
+                                   ContinueOnError="true">
+      <Output TaskParameter="exitcode" ItemName="ErrorsOcurredWhenRunningNUnitTests"/>
+    </MSBuild.Community.Tasks.NUnit>-->
+
+  </Target>
+  
+</Project>

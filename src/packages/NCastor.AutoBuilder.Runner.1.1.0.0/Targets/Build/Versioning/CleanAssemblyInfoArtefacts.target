@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanAssemblyInfoArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanAssemblyInfoArtefactsDependsOn>
+      BeforeCleanAssemblyInfoArtefacts;
+      CoreCleanAssemblyInfoArtefacts;
+      AfterCleanAssemblyInfoArtefacts;
+    </CleanAssemblyInfoArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanAssemblyInfoArtefacts" DependsOnTargets="$(CleanAssemblyInfoArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanAssemblyInfoArtefacts" />
+  <Target Name="AfterCleanAssemblyInfoArtefacts" />
+
+  <Target Name="CoreCleanAssemblyInfoArtefacts" >
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(AssemblyInfoPath)" 
+      ContinueOnError="false" 
+      Condition="Exists($(AssemblyInfoPath))" />
+    <RemoveDir ContinueOnError="false" Directories="$(AssemblyInfoPath)" Condition="Exists($(AssemblyInfoPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+    <Error ContinueOnError="false" Text="There was a problem when deleting the Common assembly info directory" Condition="Exists($(AssemblyInfoPath))" />
+
+  </Target>  
+  
+</Project>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="MSTestTests.import" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="ValidateMSTestProperties.target"/>
+  <Import Project="SettingMSTestTestingAssemblies.target"/>
+  <Import Project="CleanMSTestArtefactFolders.target"/>
+  <Import Project="CreateMSTestArtefactFolders.target"/>
+  <Import Project="RunMSTests.target"/>
+
+  <Import Project="Cover\RunMSTestWithOpenCover.target"/>
+
+</Project>

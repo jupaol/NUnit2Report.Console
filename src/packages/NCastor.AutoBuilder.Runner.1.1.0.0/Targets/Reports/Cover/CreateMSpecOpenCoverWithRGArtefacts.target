@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateMSpecOpenCoverWithRGArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name='CreateMSpecOpenCoverWithRGArtefacts'>
+
+    <MakeDir ContinueOnError="false" Directories="$(ReportGeneratorMSpecReportPath)" Condition="!Exists($(ReportGeneratorMSpecReportPath))" />
+
+  </Target>
+
+</Project>

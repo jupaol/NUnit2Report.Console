@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NUnit2Report.Console.Runner</id>
+    <version>1.0.0.0</version>
+    <title>NUnit2Report Console Runner</title>
+    <authors>Juan Pablo Olmos Lara (jupaol@hotmail.com)</authors>
+    <owners>Juan Pablo Olmos Lara (jupaol@hotmail.com)</owners>
+    <projectUrl>http://github.com/jupaol/NUnit2Report.Console</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Create Html reports from your NUnit tests
+      This is a translation from NUnit2ReportTask.cs (http://weblogs.asp.net/thangchung/archive/2010/12/17/generating-report-for-nunit.aspx)
+      The purpose is to create a Console version from: "NUnit2ReportTask"
+    </description>
+    <releaseNotes>
+      First release
+      The original author is: Gilles
+      People can contact Gilles via the mail address gilles.bayon@laposte.net or website  http://nunit2report.sourceforge.net
+    </releaseNotes>
+    <copyright>Copyright (c) 2012, Juan Pablo Olmos Lara (Jupaol)</copyright>
+    <tags>NUnit report html NUnit2ReportTask NUnit2Report NCastor AutoBuilder NCastor.AutoBuilder</tags>
+  </metadata>
+</package>

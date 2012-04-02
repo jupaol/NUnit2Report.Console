@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateClickOncePackages.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateClickOncePackagesDependsOn>
+      PrepareClickOncePackages;
+      ValidateClickOncePackages;
+      CleanClickOncePackageArtefacts;
+      CreateClickOncePackageArtefacts;
+      BeforeCreateClickOncePackages;
+      CoreCreateClickOncePackages;
+      AfterCreateClickOncePackages;
+    </CreateClickOncePackagesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateClickOncePackages" DependsOnTargets="$(CreateClickOncePackagesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateClickOncePackages" />
+  <Target Name="AfterCreateClickOncePackages" />
+
+  <Target Name="CoreCreateClickOncePackages" >
+
+    <MSBuild 
+      Projects="$(MSBuildProjectFullPath)"
+      Targets="_CreateClickOncePackages"
+      Properties="
+       _CurrentClickOnceProject=%(ClickOnceProjects.Identity);
+       _CurrentClickOnceProjectDestinationPath=%(ClickOnceProjects.DestinationPath);
+       _CurrentClickOnceProjectApplicationVersion=$(SemanticVersion);
+       _CurrentClickOnceProjectWorkingDirectoryPath=%(ClickOnceProjects.WorkingDirectoryPath);
+       _CurrentClickOnceProjectExtraProperties=%(ClickOnceProjects.ExtraProperties);
+       _CurrentClickOnceProjectPublishFileName=Publish.htm;
+       _CurrentClickOnceProjectNamespace=http://schemas.microsoft.com/developer/msbuild/2003;
+       "/>
+
+  </Target>
+
+  <Target Name="_CreateClickOncePackages">
+
+    <Error Text="The '_CurrentClickOnceProject' property is required" Condition="$(_CurrentClickOnceProject) == ''" />
+    <Error Text="The '_CurrentClickOnceProject' project does not exists" Condition="!Exists($(_CurrentClickOnceProject))" />
+    <Error Text="The '_CurrentClickOnceProjectDestinationPath' property is required" Condition="$(_CurrentClickOnceProjectDestinationPath) == ''" />
+    <Error Text="The '_CurrentClickOnceProjectDestinationPath' path was not found" Condition="!Exists($(_CurrentClickOnceProjectDestinationPath))"/>
+    <Error Text="The '_CurrentClickOnceProjectApplicationVersion' property is required" Condition="$(_CurrentClickOnceProjectApplicationVersion) == ''"/>
+    <Error Text="The '_CurrentClickOnceProjectWorkingDirectoryPath' property is required" Condition="$(_CurrentClickOnceProjectWorkingDirectoryPath) == ''"/>
+    <Error Text="The '_CurrentClickOnceProjectWorkingDirectoryPath' path was not found" Condition="!Exists($(_CurrentClickOnceProjectWorkingDirectoryPath))"/>
+    <Error Text="The '_CurrentClickOnceProjectPublishFileName' property is required" Condition="$(_CurrentClickOnceProjectPublishFileName) == ''"/>
+    <Error Text="The '_CurrentClickOnceProjectNamespace' property is required" Condition="$(_CurrentClickOnceProjectNamespace) == ''"/>
+    
+    <MSBuild
+      Projects="$(_CurrentClickOnceProject)"
+      Properties="
+            PublishDir=$(_CurrentClickOnceProjectDestinationPath)\;
+            ApplicationVersion=$(_CurrentClickOnceProjectApplicationVersion);
+            OutputPath=$(_CurrentClickOnceProjectWorkingDirectoryPath);
+            $(_CurrentClickOnceProjectExtraProperties);"
+      Targets="Publish" />
+
+    <PropertyGroup>
+      <_PublishClickOnceHtmlTemplateFilePath>$(NCastorToolsPath)\publish.template.html</_PublishClickOnceHtmlTemplateFilePath>
+      <_CurrentClickOnceProjectPublishFilePath>$(_CurrentClickOnceProjectDestinationPath)\$(_CurrentClickOnceProjectPublishFileName)</_CurrentClickOnceProjectPublishFilePath>
+    </PropertyGroup>
+
+    <MSBuild.Community.Tasks.XmlRead
+      Prefix="nu"
+      Namespace="$(_CurrentClickOnceProjectNamespace)"
+      XmlFileName="$(_CurrentClickOnceProject)"
+      XPath="//nu:Project/nu:PropertyGroup/nu:PublisherName">
+      <Output PropertyName="_CurrentClickOnceProjectPublisherName" TaskParameter="Value"/>
+    </MSBuild.Community.Tasks.XmlRead>
+
+    <MSBuild.Community.Tasks.XmlRead
+      Prefix="nu"
+      Namespace="$(_CurrentClickOnceProjectNamespace)"
+      XmlFileName="$(_CurrentClickOnceProject)"
+      XPath="//nu:Project/nu:PropertyGroup/nu:ProductName">
+      <Output PropertyName="_CurrentClickOnceProjectProductName" TaskParameter="Value"/>
+    </MSBuild.Community.Tasks.XmlRead>
+
+    <ItemGroup>
+      <!--<_PublishClickOnceTokens Include="PublisherName">
+        <ReplacementValue>$(PublisherName)</ReplacementValue>
+        <Visible>false</Visible>
+      </_PublishClickOnceTokens>-->
+      <!--<_PublishClickOnceTokens Include="ProductName">
+        <ReplacementValue>$(ProductName)</ReplacementValue>
+        <Visible>false</Visible>
+      </_PublishClickOnceTokens>-->
+      <!--<_PublishClickOnceTokens Include="ApplicationVersion">
+        <ReplacementValue>$(ApplicationVersion)</ReplacementValue>
+        <Visible>false</Visible>
+      </_PublishClickOnceTokens>-->
+      <!--<_PublishClickOnceTokens Include="Prerequsites">
+        <ReplacementValue>@(BootstrapperPackage->'&lt;li&gt;%(ProductName)&lt;/li&gt;','%0D%0A')</ReplacementValue>
+        <Visible>false</Visible>
+      </_PublishClickOnceTokens>-->
+      <_PublishClickOnceTokens Include="Username">
+        <ReplacementValue>$(Username)</ReplacementValue>
+        <Visible>false</Visible>
+      </_PublishClickOnceTokens>
+    </ItemGroup>
+
+    <MSBuild.Community.Tasks.Time Format="dd/MM/yyyy HH:mm">
+      <Output TaskParameter="FormattedTime" PropertyName="_PublishTime" />
+    </MSBuild.Community.Tasks.Time>
+
+    <!-- Finalise the publish.htm template file and copy it to the publish location -->
+    <MSBuild.Community.Tasks.TemplateFile
+      Template="$(_PublishClickOnceHtmlTemplateFilePath)"
+      Tokens="@(_PublishClickOnceTokens)"
+      OutputFilename="$(_CurrentClickOnceProjectPublishFilePath)" />
+
+    <MSBuild.Community.Tasks.FileUpdate
+      Files="$(_CurrentClickOnceProjectPublishFilePath)"
+      Regex="\${ApplicationVersion}"
+      ReplacementText="$(_CurrentClickOnceProjectApplicationVersion)" />
+
+    <MSBuild.Community.Tasks.FileUpdate
+      Files="$(_CurrentClickOnceProjectPublishFilePath)"
+      Regex="\${PublishTime}"
+      ReplacementText="$(_PublishTime)" />
+
+    <MSBuild.Community.Tasks.FileUpdate
+      Files="$(_CurrentClickOnceProjectPublishFilePath)"
+      Regex="\${PublisherName}"
+      ReplacementText="$(_CurrentClickOnceProjectPublisherName)" />
+
+    <MSBuild.Community.Tasks.FileUpdate
+      Files="$(_CurrentClickOnceProjectPublishFilePath)"
+      Regex="\${ProductName}"
+      ReplacementText="$(_CurrentClickOnceProjectProductName)" />
+    
+  </Target>
+
+</Project>

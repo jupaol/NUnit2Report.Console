@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="SetAssemblyInfo.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SetAssemblyInfoDependsOn>
+      CleanAssemblyInfoArtefacts;
+      CreateAssemblyInfoArtefacts;
+      BeforeSetAssemblyInfo;
+      CoreSetAssemblyInfo;
+      AfterSetAssemblyInfo;
+    </SetAssemblyInfoDependsOn>
+  </PropertyGroup>
+
+  <Target Name="SetAssemblyInfo" DependsOnTargets="$(SetAssemblyInfoDependsOn)" />
+
+  <!-- To be ovewritten by the user -->
+  <Target Name="BeforeSetAssemblyInfo" />
+  <Target Name="AfterSetAssemblyInfo" />
+
+  <Target Name="CoreSetAssemblyInfo">
+
+    <Error ContinueOnError="false" Text="The assembly title was not specified (AssemblyTitle)" Condition="$(AssemblyTitle) == ''" />
+    <Error ContinueOnError="false" Text="The assembly to store the common info was not specified" Condition="$(AssemblyCommonInfo) == ''" />
+
+    <MSBuild.Community.tasks.AssemblyInfo OutputFile="$(AssemblyCommonInfo)"
+                                          CodeLanguage="C#"
+                                          AssemblyTitle="$(AssemblyTitle)"
+                                          AssemblyDescription="$(AssemblyDescription)"
+                                          AssemblyCompany="$(AssemblyCompany)"
+                                          AssemblyProduct="$(AssemblyProduct)"
+                                          AssemblyCopyright="$(AssemblyCopyright)"
+                                          AssemblyTrademark="$(AssemblyTrademark)"/>
+
+  </Target>
+  
+</Project>

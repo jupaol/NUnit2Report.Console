@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanNUnitArtefactFolders.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanNUnitArtefactFoldersDependsOn>
+      BeforeCleanNUnitArtefactFolders;
+      CoreCleanNUnitArtefactFolders;
+      AfterCleanNUnitArtefactFolders;
+    </CleanNUnitArtefactFoldersDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanNUnitArtefactFolders" DependsOnTargets="$(CleanNUnitArtefactFoldersDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanNUnitArtefactFolders" />
+  <Target Name="AfterCleanNUnitArtefactFolders" />
+
+  <Target Name="CoreCleanNUnitArtefactFolders" >
+
+    <Error ContinueOnError="false" Text="The NUnit reports path was not specified" Condition="$(NUnitReportsPath) == ''" />
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(NUnitReportsPath)" 
+      ContinueOnError="false" 
+      Condition="Exists($(NUnitReportsPath))" />
+    <RemoveDir ContinueOnError="false" Directories="$(NUnitReportsPath)" Condition="Exists($(NUnitReportsPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+    <Error ContinueOnError="false" Text="There was a problem when cleaning the NUnit reports directory" Condition="Exists($(NUnitReportsPath))" />
+
+  </Target>
+  
+</Project>

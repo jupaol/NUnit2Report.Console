@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your Build custom dependencies
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- TODO: Place here your Build custom dependencies-->
+
+  <!--
+  This is the full dependency tree for the Build action, you can customize it but just remember there are some actions
+  that dependent from others.
+  
+    <PropertyGroup>
+    <BuildDependsOn>
+      SetAssemblyVersion;
+      SetAssemblyInfo;
+      PackageSourceCode;
+      BeforeBuild;
+      CoreBuild;
+      AfterBuild;
+      PackageBuild;
+    </BuildDependsOn>
+  </PropertyGroup>
+  
+  The dependencies that can be safetly removed are:
+  
+    SetAssemblyVersion;
+    SetAssemblyInfo;
+    PackageSourceCode;
+    PackageBuild;
+    
+  Howver the SetAssembly* targets should be used in order to set the version of the assembly but if you do not need this
+  feature you can remove them 
+  
+  *** Setting assembly version ***
+  
+  To setup a custom assembly version (build version and revision version), you need to override the following targets:
+  
+  "CoreCalculateBuildVersion"
+  "CoreCalculateRevisionVersion"
+  
+  You can calculate the version numbers using any MSBuild valid task, or executing an exe file.
+  There are several pre-build actions in order to fill this numbers for you
+  Currently the supported targets are: (More comming soon)
+  
+  Hudson
+    BuildVersionHudson
+    SVN
+      RevisionVersionHudsonSvn
+  TFS
+    BuildVersionTFS
+  
+  Example:
+  
+   <Target Name="CoreCalculateBuildVersion" DependsOnTargets="BuildVersionHudson;" />
+   <Target Name="CoreCalculateRevisionVersion" DependsOnTargets="RevisionVersionHudsonSvn" />
+   
+   Custom calculation example:
+   
+   <Target Name="CoreCalculateBuildVersion">
+    <PropertyGroup>
+      <BuildVersion>$(MyCalculatedBuildVersion)</BuildVersion>
+    </PropertyGroup>
+   </Target>
+
+   <Target Name="CoreCalculateRevisionVersion">
+    <PropertyGroup>
+      <RevisionVersion>$(MyCalculatedRevisionVersion)</RevisionVersion>
+    </PropertyGroup>
+   </Target>
+
+-->
+
+  <!--
+  Here we are overriding the default build actions. This is to show you how you can control all the steps being executed
+  -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      ValidateSettings;
+      CalculateSemanticVersion;
+      Clean;
+      CreateArtefactFolders;
+
+      SetAssemblyVersion;
+      SetAssemblyInfo;
+
+      BeforeBuild;
+      CoreBuild;
+      AfterBuild;
+
+      BuildSpecialProjects;
+    </BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="Build" DependsOnTargets="$(BuildDependsOn);" />
+
+  <!--
+  This is a custom build target using the minimum actions required
+  -->
+  <PropertyGroup>
+    <BuildLiteDependsOn>
+      ValidateSettings;
+      CalculateSemanticVersion;
+      Clean;
+      CreateArtefactFolders;
+
+      CoreBuild;
+    </BuildLiteDependsOn>
+  </PropertyGroup>
+  <Target Name="BuildLite" DependsOnTargets="$(BuildLiteDependsOn)" />
+
+</Project>

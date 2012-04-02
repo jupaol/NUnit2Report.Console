@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CalculateSemanticVersion.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CalculateSemanticVersionDependsOn>
+      CalculateBuildVersion;
+      CalculateRevisionVersion;
+      BeforeCalculateSemanticVersion;
+      CoreCalculateSemanticVersion;
+      AfterCalculateSemanticVersion;
+    </CalculateSemanticVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CalculateSemanticVersion" DependsOnTargets="$(CalculateSemanticVersionDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCalculateSemanticVersion" />
+  <Target Name="AfterCalculateSemanticVersion" />
+
+  <Target Name="CoreCalculateSemanticVersion">
+
+    <PropertyGroup>
+      <MajorVersion Condition="$(MajorVersion) == ''">1</MajorVersion>
+      <MinorVersion Condition="$(MinorVersion) == ''">0</MinorVersion>
+      <BuildVersion Condition="$(BuildVersion) == ''">0</BuildVersion>
+      <RevisionVersion Condition="$(RevisionVersion) == ''">0</RevisionVersion>
+      
+      <SemanticVersion>$(MajorVersion).$(MinorVersion).$(BuildVersion).$(RevisionVersion)</SemanticVersion>
+    </PropertyGroup>
+
+  </Target>
+
+</Project>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ValidateSettings.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateSettingsDependsOn>
+      BeforeValidateSettings;
+      CoreValidateSettings;
+      AfterValidateSettings;
+    </ValidateSettingsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateSettings" DependsOnTargets="$(ValidateSettingsDependsOn)" />
+
+  <!-- Can be overrided by the user -->
+  <Target Name="BeforeValidateSettings" />
+  <Target Name="AfterValidateSettings" />
+
+  <!-- Validate target -->
+  <Target Name="CoreValidateSettings">
+
+    <Error ContinueOnError="false" Text="The global root path was not defined" Condition="$(GlobalRootPath) == ''" />
+    <Error ContinueOnError="false" Text="The global root path was not found" Condition="!Exists($(GlobalRootPath))"></Error>
+    <Error ContinueOnError="false" Text="The solutions path was not defined" Condition="$(SolutionsPath) == ''" />
+    <Error ContinueOnError="false" Text="The solution path was not found" Condition="!Exists($(SolutionsPath))"></Error>
+    <Error ContinueOnError="false" Text="The Nuget packages path was not defined" Condition="$(NugetPackagesPath) == ''" />
+    
+    <Error ContinueOnError="false" Text="The solution name was not defined" Condition="$(SolutionName) == ''" />
+    <Error ContinueOnError="false" Text="The solution path was not defined" Condition="$(FullSolutionFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The solution path was not found" Condition="!Exists($(FullSolutionFilePath))" />
+
+    <Error ContinueOnError="false" Text="The drops path was not defined" Condition="$(DropsPath) == ''" />
+    <Error ContinueOnError="false" Text="The working directory path was not defined" Condition="$(WorkingDirectoryPath) == ''" />
+
+    <Error ContinueOnError="false" Text="The NCastor path was not specified" Condition="$(NCastorPath) == ''" />
+    <Error ContinueOnError="false" Text="The NCastor path was not found" Condition="!Exists($(NCastorPath))" />
+
+    <Error ContinueOnError="false" Text="The NCastor tools path was not specified" Condition="$(NCastorToolsPath) == ''" />
+    <Error ContinueOnError="false" Text="The NCastor tools path was not found" Condition="!Exists($(NCastorToolsPath))" />
+
+  </Target>
+  
+</Project>

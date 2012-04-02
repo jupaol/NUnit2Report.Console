@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="PackageNUnitTestReports.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PackageNUnitTestReportsDependsOn>
+      BeforePackageNUnitTestReports;
+      CorePackageNUnitTestReports;
+      AfterPackageNUnitTestReports;
+    </PackageNUnitTestReportsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PackageNUnitTestReports" DependsOnTargets="$(PackageNUnitTestReportsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforePackageNUnitTestReports" />
+  <Target Name="AfterPackageNUnitTestReports" />
+
+  <Target Name="CorePackageNUnitTestReports" >
+
+    <PropertyGroup>
+      <NUnitResultsPackageFilePath Condition="$(NUnitResultsPackageFilePath) == ''">$(DropsPath)\$(PackageName).NUnitReports.$(Configuration).$(Platform).v$(SemanticVersion).zip</NUnitResultsPackageFilePath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_NUnitResultsPackageFiles Include="$(NUnitReportsPath)\**\*.*;" />
+    </ItemGroup>
+
+    <MsBuild.Community.tasks.Zip ZipFileName="$(NUnitResultsPackageFilePath)"
+                                 Files="@(_NUnitResultsPackageFiles)"
+                                 WorkingDirectory="$(NUnitReportsPath)"
+                                 Flatten="False" />
+
+  </Target>
+
+</Project>

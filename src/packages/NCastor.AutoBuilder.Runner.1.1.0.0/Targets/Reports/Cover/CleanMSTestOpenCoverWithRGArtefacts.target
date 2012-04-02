@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanMSTestOpenCoverWithRGArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="CleanMSTestOpenCoverWithRGArtefacts">
+
+    <Error ContinueOnError="false" Text="The MSTest code coverage report path was not specified" Condition="$(ReportGeneratorMSTestReportPath) == ''" />
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(ReportGeneratorMSTestReportPath)" 
+      ContinueOnError="false" 
+      Condition="Exists($(ReportGeneratorMSTestReportPath))" />
+    <RemoveDir ContinueOnError="false" Directories="$(ReportGeneratorMSTestReportPath)" Condition="Exists($(ReportGeneratorMSTestReportPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+    <Error ContinueOnError="false" Text="There was a problem when cleaning the MSTest code coverage reports directory (MSTest-OpenCover-ReportGenerator)" Condition="Exists($(ReportGeneratorMSTestReportPath))" />
+
+  </Target>
+
+</Project>

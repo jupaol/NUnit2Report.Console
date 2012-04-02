@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateTestAssembliesArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateTestAssembliesArtefactsDependsOn>
+      BeforeCreateTestAssembliesArtefacts;
+      CoreCreateTestAssembliesArtefacts;
+      AfterCreateTestAssembliesArtefacts;
+    </CreateTestAssembliesArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateTestAssembliesArtefacts" DependsOnTargets="$(CreateTestAssembliesArtefactsDependsOn)" Condition="$(TestAssembliesPath) != $(BuildingPath)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateTestAssembliesArtefacts" />
+  <Target Name="AfterCreateTestAssembliesArtefacts" />
+
+  <Target Name="CoreCreateTestAssembliesArtefacts">
+
+    <MakeDir ContinueOnError="false" Directories="$(TestAssembliesPath)" Condition="!Exists($(TestAssembliesPath))" />
+    
+  </Target>
+
+</Project>

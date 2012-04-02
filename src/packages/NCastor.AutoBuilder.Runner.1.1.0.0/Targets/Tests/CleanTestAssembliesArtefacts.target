@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanTestAssembliesArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanTestAssembliesArtefactsDependsOn>
+      BeforeCleanTestAssembliesArtefacts;
+      CoreCleanTestAssembliesArtefacts;
+      AfterCleanTestAssembliesArtefacts;
+    </CleanTestAssembliesArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanTestAssembliesArtefacts" DependsOnTargets="$(CleanTestAssembliesArtefactsDependsOn)" Condition="$(TestAssembliesPath) != $(BuildingPath)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanTestAssembliesArtefacts" />
+  <Target Name="AfterCleanTestAssembliesArtefacts" />
+
+  <Target Name="CoreCleanTestAssembliesArtefacts" >
+
+    <Error ContinueOnError="false" Text="The test assemblies path was not specified" Condition="$(TestAssembliesPath) == ''" />
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(TestAssembliesPath)" 
+      ContinueOnError="false" 
+      Condition="Exists($(TestAssembliesPath))" />
+    <RemoveDir ContinueOnError="false" Directories="$(TestAssembliesPath)" Condition="Exists($(TestAssembliesPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+    <Error ContinueOnError="false" Text="There was a problem when cleaning the Test assemblies directory" Condition="Exists($(TestAssembliesPath))" />
+
+  </Target>
+  
+</Project>

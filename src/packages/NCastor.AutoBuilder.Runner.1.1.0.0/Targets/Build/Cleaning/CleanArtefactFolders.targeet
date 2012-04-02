@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanArtefactFolders.targeet" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanArtefactFoldersDependsOn>
+      BeforeCleanArtefactFolders;
+      CoreCleanArtefactFolders;
+      AfterCleanArtefactFolders;
+    </CleanArtefactFoldersDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanArtefactFolders" DependsOnTargets="$(CleanArtefactFoldersDependsOn)" />
+  
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanArtefactFolders" />
+  <Target Name="AfterCleanArtefactFolders" />
+
+  <Target Name="CoreCleanArtefactFolders">
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(WorkingDirectoryPath)"
+      ContinueOnError="false"
+      Condition="Exists($(WorkingDirectoryPath))"/>
+    <RemoveDir ContinueOnError="false" Directories="$(WorkingDirectoryPath)" Condition="Exists($(WorkingDirectoryPath))" />
+    
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(DropsPath)"
+      ContinueOnError="false"
+      Condition="Exists($(DropsPath))" />
+    <RemoveDir ContinueOnError="false" Directories="$(DropsPath)" Condition="Exists($(DropsPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+    <Error ContinueOnError="false" Text="There was a problem when cleaning the Drops directory" Condition="Exists($(DropsPath))" />
+    <Error ContinueOnError="false" Text="There was a problem when deleting the Working directory" Condition="Exists($(WorkingDirectoryPath))" />
+
+  </Target>
+  
+</Project>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ValidateMSpecProperties.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateMSpecPropertiesDependsOn>
+      BeforeValidateMSpecProperties;
+      CoreValidateMSpecProperties;
+      AfterValidateMSpecProperties;
+    </ValidateMSpecPropertiesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateMSpecProperties" DependsOnTargets="$(ValidateMSpecPropertiesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateMSpecProperties" />
+  <Target Name="AfterValidateMSpecProperties" />
+
+  <Target Name="CoreValidateMSpecProperties" >
+
+    <Error ContinueOnError="false" Text="The MSpec xml report file was not specified" Condition="$(MSpecXmlReportFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The MSpec html report file was not specied" Condition="$(MSpecHtmlReporthFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The MSpec runner was not specified" Condition="$(MSPecRunner) == ''" />
+    <Error ContinueOnError="false" Text="The MSpec runner was not found" Condition="!Exists($(MSPecRunner))" />
+    <Error ContinueOnError="false" Text="The MSpec assemblies were not specified" Condition="@(MSpecAssemblies) == ''" />
+    <Error ContinueOnError="false" Text="The MSpec test assembly was not found: &quot;%(MSpecAssemblies.Identity)&quot;" Condition="!Exists(%(MSpecAssemblies.Identity))" />
+
+  </Target>
+  
+</Project>

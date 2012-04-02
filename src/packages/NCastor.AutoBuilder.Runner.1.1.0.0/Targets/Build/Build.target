@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="Build.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      ValidateSettings;
+      CalculateSemanticVersion;
+      Clean;
+      CreateArtefactFolders;
+
+      SetAssemblyVersion;
+      SetAssemblyInfo;
+      
+      BeforeBuild;
+      CoreBuild;
+      AfterBuild;
+      
+      BuildSpecialProjects;
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="Build" DependsOnTargets="$(BuildDependsOn);" />
+
+  <!-- Can be overriden by the user -->
+  <Target Name="BeforeBuild" />
+  <Target Name="AfterBuild" />
+
+  <Target Name="CoreBuild">
+
+    <MSBuild Projects="$(FullSolutionFilePath)" Properties="$(BuildProperties);" Targets="ReBuild"/>
+    
+  </Target>
+  
+</Project>

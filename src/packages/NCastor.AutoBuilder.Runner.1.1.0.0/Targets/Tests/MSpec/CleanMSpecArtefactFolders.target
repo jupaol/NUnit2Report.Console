@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CleanMSpecArtefactFolders.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanMSpecArtefactFoldersDependsOn>
+      BeforeCleanMSpecArtefactFolders;
+      CoreCleanMSpecArtefactFolders;
+      AfterCleanMSpecArtefactFolders;
+    </CleanMSpecArtefactFoldersDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanMSpecArtefactFolders" DependsOnTargets="$(CleanMSpecArtefactFoldersDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanMSpecArtefactFolders" />
+  <Target Name="AfterCleanMSpecArtefactFolders" />
+
+  <Target Name="CoreCleanMSpecArtefactFolders" >
+
+    <Error ContinueOnError="false" Text="The MSpec results path was not specified" Condition="$(MSpecResultsPath) == ''" />
+
+    <MSBuild.ExtensionPack.FileSystem.Folder
+      TaskAction="RemoveContent"
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)"
+      Path="$(MSpecResultsPath)" 
+      ContinueOnError="false" 
+      Condition="Exists($(MSpecResultsPath))" />
+    <RemoveDir ContinueOnError="false" Directories="$(MSpecResultsPath)" Condition="Exists($(MSpecResultsPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+    <Error ContinueOnError="false" Text="There was a problem when cleaning the MSpec reports directory" Condition="Exists($(MSpecResultsPath))" />
+
+  </Target>  
+  
+</Project>

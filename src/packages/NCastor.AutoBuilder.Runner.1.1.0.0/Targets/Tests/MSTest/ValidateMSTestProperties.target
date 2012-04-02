@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ValidateMSTestProperties.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateMSTestPropertiesDependsOn>
+      BeforeValidateMSTestProperties;
+      CoreValidateMSTestProperties;
+      AfterValidateMSTestProperties;
+    </ValidateMSTestPropertiesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateMSTestProperties" DependsOnTargets="$(ValidateMSTestPropertiesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateMSTestProperties" />
+  <Target Name="AfterValidateMSTestProperties" />
+
+  <Target Name="CoreValidateMSTestProperties" >
+
+    <Error ContinueOnError="false" Text="The MSTest results file was not specified" Condition="$(MSTestReportFilePath) == ''"></Error>
+    <Error ContinueOnError="false" Text="The MSTest runner was not specified" Condition="$(MSTestRunner) == ''"></Error>
+    <Error ContinueOnError="false" Text="The MSTest runner was not found" Condition="!Exists($(MSTestRunner))"/>
+    <Error ContinueOnError="false" Text="The MSTest containers were not specified" Condition="@(MSTestContainers) == ''"></Error>
+    <Error ContinueOnError="false" Text="The MSTest dll was not found: &quot;%(MSTestContainers.Identity)&quot;" Condition="!Exists(%(MSTestContainers.Identity))" />
+
+  </Target>
+  
+</Project>

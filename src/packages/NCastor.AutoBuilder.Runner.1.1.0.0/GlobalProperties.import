@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="GlobalProperties.import" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PropertiesPath>Properties</PropertiesPath>
+  </PropertyGroup>
+  
+  <!-- Importing properties -->
+  <Import Project="$(PropertiesPath)\Common\Common.properties"/>
+  
+  <Import Project="$(PropertiesPath)\Build\AssemblyInfo.properties"/>
+  <Import Project="$(PropertiesPath)\Build\Build.properties"/>
+  
+  <Import Project="$(PropertiesPath)\Tests\UnitTests.properties"/>
+  <Import Project="$(PropertiesPath)\Tests\NUnitTests.properties"/>
+  <Import Project="$(PropertiesPath)\Tests\MSTest.properties"/>
+  <Import Project="$(PropertiesPath)\Tests\MSpecTests.properties"/>
+  <Import Project="$(PropertiesPath)\Tests\OpenCover.properties"/>
+  
+  <Import Project="$(PropertiesPath)\Reports\ReportGenerator.properties"/>
+
+  <Import Project="$(PropertiesPath)\Package\IsolateSourceCode.properties"/>
+  <Import Project="$(PropertiesPath)\Package\Packing.properties"/>
+  <Import Project="$(PropertiesPath)\Package\Nuget.properties"/>
+
+</Project>

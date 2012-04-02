@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your custom MSpec targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your custom MSpec targets-->
+
+  <!--Uncomment to specify the MSpec assemblies-->
+  <!--<Target Name="CoreSettingMSpecTestingAssemblies">
+    <ItemGroup>
+      <MSpecAssemblies Include="$(TestAssembliesPath)\msp*.dll" />
+    </ItemGroup>
+  </Target>-->
+
+</Project>

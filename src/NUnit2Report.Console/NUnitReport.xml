@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\Jupaol\Documents\Visual Studio 2010\Projects\NUnit2ReportConsoleVersion\WorkingDirectory\TestingAssemblies\NUnit2Report.Console.Tests.dll" total="17" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2012-04-01" time="12:12:06">
+  <environment nunit-version="2.6.0.12051" clr-version="2.0.50727.5448" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Users\Jupaol\Documents\Visual Studio 2010\Projects\NUnit2ReportConsoleVersion\WorkingDirectory\TestingAssemblies" machine-name="JUPAOL-PC" user="Jupaol" user-domain="Jupaol-PC" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\Users\Jupaol\Documents\Visual Studio 2010\Projects\NUnit2ReportConsoleVersion\WorkingDirectory\TestingAssemblies\NUnit2Report.Console.Tests.dll" executed="True" result="Success" success="True" time="1.825" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="NUnit2Report" executed="True" result="Success" success="True" time="1.794" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Console" executed="True" result="Success" success="True" time="1.794" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="1.794" asserts="0">
+                <results>
+                  <test-suite type="TestFixture" name="ApplicationControllerTests" executed="True" result="Success" success="True" time="1.763" asserts="0">
+                    <results>
+                      <test-case name="NUnit2Report.Console.Tests.ApplicationControllerTests.calling_AreOptionsValid_with_invalid_arguments_it_hsould_return_false" executed="True" result="Success" success="True" time="0.094" asserts="0" />
+                      <test-case name="NUnit2Report.Console.Tests.ApplicationControllerTests.calling_AreOptionsValid_with_valid_arguments_it_should_return_true" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                      <test-case name="NUnit2Report.Console.Tests.ApplicationControllerTests.calling_Execute_with_options_NoFrames_it_should_create_the_tests_report_using_the_default_path" executed="True" result="Success" success="True" time="1.591" asserts="0" />
+                      <test-case name="NUnit2Report.Console.Tests.ApplicationControllerTests.calling_GetHelp_from_the_ApplicationController_it_should_return_TheoryAttribute_help_of_the_application" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                      <test-case name="NUnit2Report.Console.Tests.ApplicationControllerTests.calling_ParseArguments_without_specifying_at_least_one_xml_nunit_results_file_it_should_throw_an_ArgumentException" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="NUnit2Report.Console.Tests.ApplicationControllerTests.can_create_a_new_ApplicaitonController_object" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="NUnit2Report.Console.Tests.ApplicationControllerTests.getting_the_Arguments_property_from_the_ApplicationController_it_should_return_the_current_arguments" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="Namespace" name="CommandLineOptions" executed="True" result="Success" success="True" time="0.031" asserts="0">
+                    <results>
+                      <test-suite type="TestFixture" name="CommandLineOptionsTests" executed="True" result="Success" success="True" time="0.031" asserts="0">
+                        <results>
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_calling_ParseArguments_when_the_Fileset_argument_was_specified_it_should_return_true" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_calling_ParseArguments_when_the_Language_argument_was_specified_it_should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_calling_ParseArguments_when_the_OpenDesc_argument_was_specified_it_should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_calling_ParseArguments_when_the_Out_argument_was_specified_it_should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_calling_ParseArguments_when_the_Summaries_argument_was_specified_it_should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_calling_ParseArguments_when_the_todir_argument_was_specified_it_should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_validating_the_command_line_arguments_when_the_Frames_and_NoFrames_arguments_are_not_specified_the_ParseArguments_method_Should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_validating_the_command_line_arguments_with_the_Frames_and_NoFrames_arguments_specified_the_ParseArguments_method_should_return_false" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_validating_the_command_line_arguments_with_the_Frames_argument_specified_the_ParseArguments_method_should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                          <test-case name="NUnit2Report.Console.Tests.CommandLineOptions.CommandLineOptionsTests.when_validating_the_command_line_arguments_with_the_NoFrames_arguemnt_specified_the_ParseArguments_method_should_return_true" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="Tests.import" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="CleanTestAssembliesArtefacts.target"/>
+  <Import Project="CreateTestAssembliesArtefacts.target"/>
+  <Import Project="SettingTestingAssemblies.target"/>
+  <Import Project="SettingInstrumentationAssemblies.target"/>
+  <Import Project="RunTests.target"/>
+
+  <Import Project="ValidateOpenCoverProperties.target"/>
+
+  <Import Project="MSpec\MSpecTests.import"/>
+  <Import Project="MSTest\MSTestTests.import"/>
+  <Import Project="NUnit\NUnitTests.import"/>
+
+  <Import Project="CheckForTestsErrors.target"/>
+
+</Project>

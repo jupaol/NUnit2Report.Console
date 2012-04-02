@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="PackageClickOnceArtefacts.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PackageClickOnceArtefactsDependsOn>
+      BeforePackageClickOnceArtefacts;
+      CorePackageClickOnceArtefacts;
+      AfterPackageClickOnceArtefacts;
+    </PackageClickOnceArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PackageClickOnceArtefacts" DependsOnTargets="$(PackageClickOnceArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforePackageClickOnceArtefacts" />
+  <Target Name="AfterPackageClickOnceArtefacts" />
+
+  <Target Name="CorePackageClickOnceArtefacts" >
+
+    <MSBuild
+      Projects="$(MSBuildProjectFullPath)"
+      Targets="_PackageClickOnceArtefacts"
+      Properties="
+        _CurrentClickOnceZipFilePath=$(DropsPath)\$(PackageName).Published.%(ClickOnceProjects.FileName).$(Configuration).$(Platform).v$(SemanticVersion).zip;
+        _CurrentClickOnceDestinationSourcePath=%(ClickOnceProjects.DestinationPath)
+      "/>
+
+  </Target>
+
+  <Target Name="_PackageClickOnceArtefacts">
+
+    <Error ContinueOnError="false" Text="The _CurrentClickOnceDestinationSourcePath was not specified" Condition="$(_CurrentClickOnceDestinationSourcePath) == ''" />
+    <Error ContinueOnError="false" Text="The _CurrentClickOnceDestinationSourcePath was not found" Condition="!Exists($(_CurrentClickOnceDestinationSourcePath))" />
+    <Error ContinueOnError="false" Text="The _CurrentClickOnceZipFilePath was not specified" Condition="$(_CurrentClickOnceZipFilePath) == ''" />
+
+    <ItemGroup>
+      <_CurrentClickOncePublishedFiles Include="$(_CurrentClickOnceDestinationSourcePath)\**\*" />
+    </ItemGroup>
+
+    <MsBuild.Community.tasks.Zip
+      ZipFileName="$(_CurrentClickOnceZipFilePath)"
+      Files="@(_CurrentClickOncePublishedFiles)"
+      WorkingDirectory="$(_CurrentClickOnceDestinationSourcePath)"
+      Flatten="False" />
+
+  </Target>
+
+</Project>

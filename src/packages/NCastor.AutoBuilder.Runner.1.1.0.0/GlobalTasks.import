@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="GlobalTasks.import" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <TasksPath>Tasks</TasksPath>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <MSBuildExtensionPackPath>$(TasksPath)\MSBuild Extension Pack</MSBuildExtensionPackPath>
+    <MSBuildCommunityPath>$(TasksPath)\MSBuild.Community</MSBuildCommunityPath>
+    <MSBuildSDCTasksPath>$(TasksPath)\SDC Tasks</MSBuildSDCTasksPath>
+  </PropertyGroup>
+
+  <!-- Importing tasks -->
+  <Import Project="$(MSBuildExtensionPackPath)\MSBuild.ExtensionPack.tasks" />
+  <Import Project="$(MSBuildCommunityPath)\MSBuild.Community.Tasks.Targets" />
+  <Import Project="$(MSBuildSDCTasksPath)\Microsoft.Sdc.Common.tasks" />
+
+</Project>

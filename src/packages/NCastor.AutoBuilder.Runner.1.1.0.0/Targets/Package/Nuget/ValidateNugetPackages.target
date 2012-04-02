@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ValidateNugetPackages.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateNugetPackagesDependsOn>
+      BeforeValidateNugetPackages;
+      CoreValidateNugetPackages;
+      AfterValidateNugetPackages;
+    </ValidateNugetPackagesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateNugetPackages" DependsOnTargets="$(ValidateNugetPackagesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateNugetPackages" />
+  <Target Name="AfterValidateNugetPackages" />
+
+  <Target Name="CoreValidateNugetPackages" >
+
+    <Error ContinueOnError="false" Text="You need to specify at least one nuget package to process" Condition="@(NugetPackages) == ''" />
+    <Error ContinueOnError="false" Text="The Nuget runner was not specified" Condition="$(NugetRunner) == ''" />
+    <Error ContinueOnError="false" Text="The Nuget runner was not found" Condition="!Exists($(NugetRunner))" />
+
+    <Error
+      ContinueOnError="false"
+      Text="For each nuget package to process, you need to specify the nuspec or project in the include NugetPackages.Include"
+      Condition="%(NugetPackages.Identity) == ''" />
+    <Error
+      ContinueOnError="false"
+      Text="For each nuget package to process, you need to specify its SourcePath property"
+      Condition="%(NugetPackages.SourcePath) == ''" />
+    <Error
+      ContinueOnError="false"
+      Text="For each nuget package to process, you need to specify its Version property"
+      Condition="%(NugetPackages.Version) == ''" />
+
+  </Target>
+  
+</Project>

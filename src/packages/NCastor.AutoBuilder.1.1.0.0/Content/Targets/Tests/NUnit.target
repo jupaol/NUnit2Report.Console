@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your custom NUnit targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your custom NUnit targets-->
+
+  <!--Uncomment to specify the NUnit assemblies-->
+  <!--<Target Name="CoreSettingNUnitTestingAssemblies">
+    <ItemGroup>
+      <NUnitAssemblies Include="
+                                $(TestAssembliesPath)\NUnitTests1.dll;
+                                $(TestAssembliesPath)\NUnitTests2.dll;" />
+    </ItemGroup>
+  </Target>-->
+
+</Project>

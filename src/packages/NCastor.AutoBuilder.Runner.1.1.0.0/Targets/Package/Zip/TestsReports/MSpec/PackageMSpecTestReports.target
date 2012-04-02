@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="PackageMSpecTestReports.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PackageMSpecTestReportsDependsOn>
+      BeforePackageMSpecTestReports;
+      CorePackageMSpecTestReports;
+      AfterPackageMSpecTestReports;
+    </PackageMSpecTestReportsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PackageMSpecTestReports" DependsOnTargets="$(PackageMSpecTestReportsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforePackageMSpecTestReports" />
+  <Target Name="AfterPackageMSpecTestReports" />
+
+  <Target Name="CorePackageMSpecTestReports" >
+
+    <PropertyGroup>
+      <MSpecResultsPackageFilePath Condition="$(MSpecResultsPackageFilePath) == ''">$(DropsPath)\$(PackageName).MSpecReports.$(Configuration).$(Platform).v$(SemanticVersion).zip</MSpecResultsPackageFilePath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_MSpecResultsPackageFiles Include="$(MSpecResultsPath)\**\*.*;" />
+    </ItemGroup>
+
+    <MsBuild.Community.tasks.Zip ZipFileName="$(MSpecResultsPackageFilePath)"
+                                 Files="@(_MSpecResultsPackageFiles)"
+                                 WorkingDirectory="$(MSpecResultsPath)"
+                                 Flatten="False" />
+
+  </Target>
+
+</Project>

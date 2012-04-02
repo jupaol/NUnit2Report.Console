@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="SetAssemblyVersion.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SetAssemblyVersionDependsOn>
+      CleanAssemblyInfoArtefacts;
+      CreateAssemblyInfoArtefacts;
+      BeforeSetAssemblyVersion;
+      CoreSetAssemblyVersion;
+      AfterSetAssemblyVersion;
+    </SetAssemblyVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="SetAssemblyVersion" DependsOnTargets="$(SetAssemblyVersionDependsOn)" />
+
+  <!-- Targets can be overwritten by the user -->
+  <Target Name="BeforeSetAssemblyVersion" />
+  <Target Name="AfterSetAssemblyVersion" />
+
+  <Target Name="CoreSetAssemblyVersion">
+
+    <Error ContinueOnError="false" Text="The assembly version file path was not specified" Condition="$(AssemblyVersionFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The Semantic version was not specified" Condition="$(SemanticVersion) == ''" />
+    
+    <MSBuild.Community.tasks.AssemblyInfo OutputFile="$(AssemblyVersionFilePath)"
+              CodeLanguage="C#"
+              AssemblyFileVersion="$(SemanticVersion)"
+              AssemblyInformationalVersion="$(SemanticVersion)"
+              AssemblyVersion="$(SemanticVersion)" />
+
+  </Target>
+  
+</Project>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your CreatePackages custom dependencies
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--TODO: Place here your CreatePackages custom dependencies-->
+
+  <!--Full CreatePackages dependencies-->
+  <!--<PropertyGroup>
+    <CreatePackagesDependsOn>
+      RunTests;
+
+      BeforeCreatePackages;
+
+      PackageSourceCode;
+      PackageBuild;
+      PackageSpecialProjects;
+      PackageTestAssemblies;
+
+      PackageNUnitTestReports;
+      PackageMSTestTestReports;
+      PackageMSpecTestReports;
+      
+      PackageNugets;
+      CreateClickOncePackages;
+      PackageClickOnceArtefacts;
+
+      CoreCreatePackages;
+      AfterCreatePackages;
+    </CreatePackagesDependsOn>
+  </PropertyGroup>-->
+
+  <PropertyGroup>
+    <CreatePackagesDependsOn>
+      RunTests;
+
+      BeforeCreatePackages;
+
+      PackageSourceCode;
+      PackageBuild;
+      PackageSpecialProjects;
+      PackageTestAssemblies;
+
+      PackageNUnitTestReports;
+      PackageMSTestTestReports;
+      PackageMSpecTestReports;
+
+      PackageNugets;
+      CreateClickOncePackages;
+      PackageClickOnceArtefacts;
+
+      CoreCreatePackages;
+      AfterCreatePackages;
+    </CreatePackagesDependsOn>
+  </PropertyGroup>
+  <Target Name="CreatePackages" DependsOnTargets="$(CreatePackagesDependsOn)" />
+
+</Project>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="PackageBuild.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PackageBuildDependsOn>
+      BeforePackageBuild;
+      CorePackageBuild;
+      AfterPackageBuild;
+    </PackageBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PackageBuild" DependsOnTargets="$(PackageBuildDependsOn)" />
+
+  <Target Name="BeforePackageBuild" />
+  <Target Name="AfterPackageBuild" />
+  
+  <Target Name="CorePackageBuild" >
+
+    <PropertyGroup>
+      <BuildPackageFilePath Condition="$(BuildPackageFilePath) == ''">$(DropsPath)\$(PackageName).App.$(Configuration).$(Platform).v$(SemanticVersion).zip</BuildPackageFilePath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_BuildedFiles Include="$(BuildingPath)\**\*.*;" />
+    </ItemGroup>
+
+    <MsBuild.Community.tasks.Zip ZipFileName="$(BuildPackageFilePath)"
+                                 Files="@(_BuildedFiles)"
+                                 WorkingDirectory="$(BuildingPath)"
+                                 Flatten="False" />
+
+  </Target>
+
+</Project>

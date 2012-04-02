@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="RunMSpecTests.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RunMSpecTestsDependsOn>
+      SettingMSpecTestingAssemblies;
+      ValidateMSpecProperties;
+      CleanMSpecArtefactFolders;
+      CreateMSpecArtefactFolders;
+      BeforeRunMSpecTests;
+      CoreRunMSpecTests;
+      AfterRunMSpecTests;
+      TransformMSpecXmlToJUnitXml;
+    </RunMSpecTestsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="RunMSpecTests" DependsOnTargets="$(RunMSpecTestsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeRunMSpecTests" />
+  <Target Name="AfterRunMSpecTests" />
+
+  <Target Name="CoreRunMSpecTests" >
+
+    <ItemGroup>
+      <_MSpecAssemblies Include="@(MSpecAssemblies->'&quot;%(Identity)&quot;')" />
+    </ItemGroup>
+    
+    <PropertyGroup>
+      <_MSpecOptions> --xml "$(MSpecXmlReportFilePath)" --html "$(MSpecHtmlReporthFilePath)" $(MSpecRunnerArguments)</_MSpecOptions>
+      <_MSpecCommand>"$(MSPecRunner)" $(_MSpecOptions) @(_MSpecAssemblies, ' ')</_MSpecCommand>
+    </PropertyGroup>
+
+    <Exec ContinueOnError="true" Command="$(_MSpecCommand)">
+      <Output TaskParameter="exitcode" ItemName="ErrorsOcurredWhenRunningMSpecTests"/>
+    </Exec>
+    
+  </Target>  
+  
+</Project>

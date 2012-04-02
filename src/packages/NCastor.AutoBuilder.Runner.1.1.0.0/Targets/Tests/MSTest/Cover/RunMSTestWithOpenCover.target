@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="RunMSTestWithOpenCover.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RunMSTestWithOpenCoverDependsOn>
+      SettingMSTestTestingAssemblies;
+      SettingInstrumentationAssemblies;
+      ValidateMSTestProperties;
+      ValidateOpenCoverProperties;
+      CleanMSTestArtefactFolders;
+      CreateMSTestArtefactFolders;
+      BeforeRunMSTestWithOpenCover;
+      CoreRunMSTestWithOpenCover;
+      AfterRunMSTestWithOpenCover;
+      CreateMSTestReport;
+    </RunMSTestWithOpenCoverDependsOn>
+  </PropertyGroup>
+
+  <Target Name="RunMSTestWithOpenCover" DependsOnTargets="$(RunMSTestWithOpenCoverDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeRunMSTestWithOpenCover" />
+  <Target Name="AfterRunMSTestWithOpenCover" />
+
+  <Target Name="CoreRunMSTestWithOpenCover" >
+
+    <Error ContinueOnError="false" Text="The OpenCover MSTest results file path was not specified" Condition="$(OpenCoverMSTest_ReportFilePath) == ''" />
+
+    <ItemGroup>
+      <_MSTestContainersToRunCodeCoverage Include="@(MSTestContainers->'/testcontainer:\&quot;%(Identity)\&quot;')" />
+      <_AssembliesToInstrumentWithOpenCoverMSTest Include="@(AssembliesToInstrument->'+[%(FileName)]*')" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_OpenCoverMSTestCommand>-target:"$(MSTestRunner)"  -targetargs:"@(_MSTestContainersToRunCodeCoverage, ' ') $(MSTestRunnerWithOpenCoverArguments) /resultsfile:\"$(MSTestReportFilePath)\""</_OpenCoverMSTestCommand>
+
+      <_CommonOpenCoverArgs>&quot;$(OpenCoverRunner)&quot; -targetdir:&quot;$(TestAssembliesPath)&quot; $(OpenCoverRunnerArgumentsForMSTest) -filter:&quot;@(_AssembliesToInstrumentWithOpenCoverMSTest, ' ')&quot; -output:&quot;$(OpenCoverMSTest_ReportFilePath)&quot;</_CommonOpenCoverArgs>
+    </PropertyGroup>
+
+    <Delete Files="$(MSTestReportFilePath)" Condition="Exists($(MSTestReportFilePath))" />
+
+    <Exec ContinueOnError="true" Command="$(_CommonOpenCoverArgs) $(_OpenCoverMSTestCommand)">
+      <Output TaskParameter="exitcode" ItemName="ErrorsOcurredWhenRunningMSTestTests"/>
+    </Exec>
+
+  </Target>
+  
+</Project>

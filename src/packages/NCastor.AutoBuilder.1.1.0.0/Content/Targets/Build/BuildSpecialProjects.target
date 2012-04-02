@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+"Your stuff"
+
+Your Build special projects targets
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- TODO: Place here your Build special projects targets -->
+  
+  <!--
+  Your special projects are the projects you usually use as output of your application and you would be packing 
+  the content of these projects. You could pack just as ZIP files, create Nugets, installers with WIX or with ClickOnce
+  
+  When you specify at least one special project, the project will be compiled used the current build settings but the
+  output will be set to one special folder that you must specify. This step is usually performed at the end of 
+  the build process.
+  
+  The following are examples to show you how to specify special projects:
+  
+  Note: You need to override the following target: CorePrepareSpecialProjects and inside this target place 
+  the definition of the special projects
+  -->
+
+  <!--This is the target that should be overriden-->
+  <!--<Target Name="CorePrepareSpecialProjects">
+    Properties to keep the track of the paths to the output of your special folders
+    <PropertyGroup>
+    <MyWindowsApplicationOutputPath>$(WorkingDirectoryPath)\MyWindowsApplicationBuild</MyWindowsApplicationOutputPath>
+    <MyNugetPackageOutputPath>$(WorkingDirectoryPath)\MyNugetPackageBuild</MyNugetPackageOutputPath>
+    <AnotherNugetPackageOutputPath>$(WorkingDirectoryPath)\AnotherNugetPackageBuild</AnotherNugetPackageOutputPath>
+    <MyWIXInstallerOfMyWinAppOutputPath>$(WorkingDirectoryPath)\MyWIXInstallerOfMyWinApp</MyWIXInstallerOfMyWinAppOutputPath>
+  </PropertyGroup>
+
+    Specifying the special projects
+    <ItemGroup>
+    <SpecialProjects Include="$(SolutionsPath)\My.Windows.Application\My.Windows.Application.csproj">
+      <WorkingDirectoryPath>$(MyWindowsApplicationOutputPath)</WorkingDirectoryPath>
+    </SpecialProjects>
+    <SpecialProjects Include="$(SolutionsPath)\My.Nuget.Package\My.Nuget.Package.csproj">
+      <WorkingDirectoryPath>$(MyNugetPackageOutputPath)</WorkingDirectoryPath>
+    </SpecialProjects>
+    <SpecialProjects Include="$(SolutionsPath)\My.WIX.Installer\My.WIX.Installer.csproj">
+      <WorkingDirectoryPath>$(MyWIXInstallerOfMyWinAppOutputPath)</WorkingDirectoryPath>
+    </SpecialProjects>
+    <SpecialProjects Include="$(SolutionsPath)\Another.Nuget.Package\Another.Nuget.Package.csproj">
+      <WorkingDirectoryPath>$(AnotherNugetPackageOutputPath)</WorkingDirectoryPath>
+    </SpecialProjects>
+  </ItemGroup>
+  </Target>-->
+  
+</Project>

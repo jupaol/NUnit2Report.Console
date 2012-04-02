@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="ReportNUnitOpenCoverWithRG.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ReportNUnitOpenCoverWithRGDependsOn>
+      CleanNUnitOpenCoverWithRGArtefacts;
+      CreateNUnitOpenCoverWithRGArtefacts;
+      BeforeReportNUnitOpenCoverWithRG;
+      CoreReportNUnitOpenCoverWithRG;
+      AfterReportNUnitOpenCoverWithRG;
+    </ReportNUnitOpenCoverWithRGDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ReportNUnitOpenCoverWithRG" DependsOnTargets="$(ReportNUnitOpenCoverWithRGDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeReportNUnitOpenCoverWithRG" />
+  <Target Name="AfterReportNUnitOpenCoverWithRG" />
+
+  <Target Name="CoreReportNUnitOpenCoverWithRG" >
+
+    <Error ContinueOnError="false" Text="The report generator runner was not specified" Condition="$(ReportGeneratorRunner) == ''" />
+    <Error ContinueOnError="false" Text="The report generator runner was not found" Condition="!Exists($(ReportGeneratorRunner))" />
+    <Error ContinueOnError="false" Text="The OpenCover NUnit result file was not specified" Condition="$(OpenCoverNUnit_ReportFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The OpenCover NUnit result file was not found" Condition="!Exists($(OpenCoverNUnit_ReportFilePath))" />
+
+    <Exec ContinueOnError="false" Command='"$(ReportGeneratorRunner)" "$(OpenCoverNUnit_ReportFilePath)" "$(ReportGeneratorNUnitReportPath)"' />
+
+  </Target>
+  
+</Project>

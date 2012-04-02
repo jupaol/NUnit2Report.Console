@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreateNUnitArtefactFolders.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateNUnitArtefactFoldersDependsOn>
+      BeforeCreateNUnitArtefactFolders;
+      CoreCreateNUnitArtefactFolders;
+      AfterCreateNUnitArtefactFolders;
+    </CreateNUnitArtefactFoldersDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateNUnitArtefactFolders" DependsOnTargets="$(CreateNUnitArtefactFoldersDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateNUnitArtefactFolders" />
+  <Target Name="AfterCreateNUnitArtefactFolders" />
+
+  <Target Name="CoreCreateNUnitArtefactFolders" >
+
+    <MakeDir ContinueOnError="false" Directories="$(NUnitReportsPath)" Condition="!Exists($(NUnitReportsPath))" />
+
+  </Target>
+  
+</Project>

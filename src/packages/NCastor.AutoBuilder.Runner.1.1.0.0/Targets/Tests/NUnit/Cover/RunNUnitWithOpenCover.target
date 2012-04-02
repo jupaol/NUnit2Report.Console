@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="RunNUnitWithOpenCover.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RunNUnitWithOpenCoverDependsOn>
+      SettingNUnitTestingAssemblies;
+      SettingInstrumentationAssemblies;
+      ValidateNUnitProperties;
+      ValidateOpenCoverProperties;
+      CleanNUnitArtefactFolders;
+      CreateNUnitArtefactFolders;
+      BeforeRunNUnitWithOpenCover;
+      CoreRunNUnitWithOpenCover;
+      AfterRunNUnitWithOpenCover;
+    </RunNUnitWithOpenCoverDependsOn>
+  </PropertyGroup>
+
+  <Target Name="RunNUnitWithOpenCover" DependsOnTargets="$(RunNUnitWithOpenCoverDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeRunNUnitWithOpenCover" />
+  <Target Name="AfterRunNUnitWithOpenCover" />
+
+  <Target Name="CoreRunNUnitWithOpenCover" >
+
+    <Error ContinueOnError="false" Text="The OpenCover NUnit results file was not specified" Condition="$(OpenCoverNUnit_ReportFilePath) == ''" />
+
+    <ItemGroup>
+      <_NUnitAssembliesToRunWithOpenCover Include="@(NUnitAssemblies->'\&quot;%(Identity)\&quot;')" />
+      <_AssembliesToInstrumentWithOpenCoverNUnit Include="@(AssembliesToInstrument->'+[%(FileName)]*')"></_AssembliesToInstrumentWithOpenCoverNUnit>
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_NunitArgs>@(_NUnitAssembliesToRunWithOpenCover, ' ') $(NUnitRunnerWithOpenCoverArguments) /result=\&quot;$(NUnitXmlReportFilePath)\&quot;</_NunitArgs>
+
+      <_OpenCoverNUnitArgs>-target:&quot;$(NUnitRunner)&quot; -targetargs:&quot;$(_NunitArgs)&quot;</_OpenCoverNUnitArgs>
+
+      <_CommonOpenCoverArgs>&quot;$(OpenCoverRunner)&quot; -targetdir:&quot;$(TestAssembliesPath)&quot; $(OpenCoverRunnerArgumentsForNUnit) -filter:&quot;@(_AssembliesToInstrumentWithOpenCoverNUnit, ' ')&quot; -output:&quot;$(OpenCoverNUnit_ReportFilePath)&quot;</_CommonOpenCoverArgs>
+    </PropertyGroup>
+
+    <Exec ContinueOnError="true" Command="$(_CommonOpenCoverArgs) $(_OpenCoverNUnitArgs)">
+      <Output TaskParameter="exitcode" ItemName="ErrorsOcurredWhenRunningNUnitTests"/>
+    </Exec>
+
+  </Target>
+  
+</Project>

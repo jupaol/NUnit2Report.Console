@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="RunMSTests.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RunMSTestsDependsOn>
+      SettingMSTestTestingAssemblies;
+      ValidateMSTestProperties;
+      CleanMSTestArtefactFolders;
+      CreateMSTestArtefactFolders;
+      BeforeRunMSTests;
+      CoreRunMSTests;
+      AfterRunMSTests;
+      CreateMSTestReport;
+    </RunMSTestsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="RunMSTests" DependsOnTargets="$(RunMSTestsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeRunMSTests" />
+  <Target Name="AfterRunMSTests" />
+
+  <Target Name="CoreRunMSTests" >
+
+    <ItemGroup>
+      <_MSTestContainers Include="@(MSTestContainers->'/testcontainer:&quot;%(Identity)&quot;')" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_MSTestCommand>"$(MSTestRunner)" @(_MSTestContainers, ' ') $(MSTestRunnerArguments) /resultsfile:"$(MSTestReportFilePath)"</_MSTestCommand>
+    </PropertyGroup>
+
+    <Delete Files="$(MSTestReportFilePath)" Condition="Exists($(MSTestReportFilePath))" />
+
+    <Exec ContinueOnError="true" Command='$(_MSTestCommand)'>
+      <Output TaskParameter="exitcode" ItemName="ErrorsOcurredWhenRunningMSTestTests"/>
+    </Exec>
+
+  </Target>
+  
+</Project>

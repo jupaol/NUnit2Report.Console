@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="PackageSourceCode.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PackageSourceCodeDependsOn>
+      BeforePackageSourceCode;
+      CorePackageSourceCode;
+      AfterPackageSourceCode;
+    </PackageSourceCodeDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PackageSourceCode" DependsOnTargets="$(PackageSourceCodeDependsOn)" />
+
+  <Target Name="BeforePackageSourceCode" />
+  <Target Name="AfterPackageSourceCode" />
+  
+  <Target Name="CorePackageSourceCode" >
+
+    <PropertyGroup>
+      <SourceCodePackageFilePath Condition="$(SourceCodePackageFilePath) == ''">$(DropsPath)\$(PackageName).Source.v$(SemanticVersion).zip</SourceCodePackageFilePath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_SourceCodeFiles Include="
+                          $(SolutionsPath)\**\*"
+                        Exclude=" 
+                          $(SolutionsPath)\**\bin\**;
+                          $(SolutionsPath)\**\.svn\**;
+                          $(SolutionsPath)\**\Logs\**;
+                          $(DropsPath)\**;
+                          $(WorkingDirectoryPath)\**;
+                          $(SolutionsPath)\**\Logs\**;
+                          $(SolutionsPath)\**\obj\**;
+                          $(SolutionsPath)\**\*.suo;
+                          $(SolutionsPath)\**\*.cache;
+                          $(SolutionsPath)\**\_ReSharper*\**;
+                          $(SolutionsPath)\**\*ReSharper*"/>
+    </ItemGroup>
+
+    <MsBuild.Community.tasks.Zip ZipFileName="$(SourceCodePackageFilePath)"
+                                 Files="@(_SourceCodeFiles)"
+                                 WorkingDirectory="$(SolutionsPath)"
+                                 Flatten="False" />
+
+  </Target>
+
+</Project>

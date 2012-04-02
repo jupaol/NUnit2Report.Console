@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CheckForTestsErrors.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CheckForTestsErrorsDependsOn>
+      BeforeCheckForTestsErrors;
+      CoreCheckForTestsErrors;
+      AfterCheckForTestsErrors;
+    </CheckForTestsErrorsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CheckForTestsErrors" DependsOnTargets="$(CheckForTestsErrorsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCheckForTestsErrors" />
+  <Target Name="AfterCheckForTestsErrors" />
+
+  <Target Name="CoreCheckForTestsErrors" >
+
+    <Error 
+      Text="
+        At least one error ocurred when running MSTests tests, probably some tests failed, please check the build log 
+        for more information" 
+      Condition="
+        @(ErrorsOcurredWhenRunningMSTestTests) != '' and '%(ErrorsOcurredWhenRunningMSTestTests.identity)' > 0" />
+
+    <Error
+      Text="
+        At least one error ocurred when running MSpec tests, probably some tests failed, please check the build log 
+        for more information"
+      Condition="
+        @(ErrorsOcurredWhenRunningMSpecTests) != '' and '%(ErrorsOcurredWhenRunningMSpecTests.identity)' > 0" />
+
+    <Error
+      Text="
+        At least one error ocurred when running NUnit tests, probably some tests failed, please check the build log 
+        for more information"
+      Condition="
+        @(ErrorsOcurredWhenRunningNUnitTests) != '' and '%(ErrorsOcurredWhenRunningNUnitTests.identity)' > 0" />
+
+
+  </Target>  
+</Project>

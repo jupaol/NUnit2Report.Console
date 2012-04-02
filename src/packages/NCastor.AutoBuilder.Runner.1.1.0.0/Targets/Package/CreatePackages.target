@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<copyright file="CreatePackages.target" company="Juan Pablo Olmos Lara (Jupaol)">
+
+  jupaol@hotmail.com
+  http://jupaol.blogspot.com/
+
+</copyright>
+-->
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreatePackagesDependsOn>
+      RunTests;
+
+      BeforeCreatePackages;
+
+      PackageSourceCode;
+      PackageBuild;
+      PackageSpecialProjects;
+      PackageTestAssemblies;
+
+      PackageNUnitTestReports;
+      PackageMSTestTestReports;
+      PackageMSpecTestReports;
+
+      PackageNugets;
+      CreateClickOncePackages;
+      PackageClickOnceArtefacts;
+
+      CoreCreatePackages;
+      AfterCreatePackages;
+    </CreatePackagesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreatePackages" DependsOnTargets="$(CreatePackagesDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreatePackages" />
+  <Target Name="AfterCreatePackages" />
+
+  <Target Name="CoreCreatePackages" />
+
+</Project>
