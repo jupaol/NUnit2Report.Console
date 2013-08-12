@@ -121,6 +121,9 @@
       <td width="70px">
         <b id=":i18n:Errors">Errors</b>
       </td>
+      <td width="70px">
+        <b id=":i18n:Errors">Ignored</b>
+      </td>
       <td colspan="2">
         <b id=":i18n:SuccessRate">Success Rate</b>
       </td>
@@ -148,6 +151,9 @@
       </td>
       <td width="5%">
         <b id=":i18n:Failures">Failures</b>
+      </td>
+      <td width="5%">
+        <b id=":i18n:Ignored">Ignored</b>
       </td>
       <td width="10%" nowrap="nowrap">
         <b id=":i18n:Time">Time(s)</b>
@@ -186,8 +192,9 @@
     <h2 id=":i18n:Summary">Summary</h2>
     <xsl:variable name="runCount" select="@total"/>
     <xsl:variable name="failureCount" select="@failures"/>
+    <xsl:variable name="errorCount" select="@errors"/>
     <xsl:variable name="ignoreCount" select="@not-run"/>
-    <xsl:variable name="total" select="$runCount + $ignoreCount + $failureCount"/>
+    <xsl:variable name="total" select="$runCount + $errorCount + $failureCount"/>
 
     <xsl:variable name="timeCount" select="translate(test-suite/@time,',','.')"/>
 
@@ -198,7 +205,8 @@
         <xsl:attribute name="class">
           <xsl:choose>
             <xsl:when test="$failureCount &gt; 0">Failure</xsl:when>
-            <xsl:when test="$ignoreCount &gt; 0">Error</xsl:when>
+            <xsl:when test="$errorCount &gt; 0">Error</xsl:when>
+            <xsl:when test="$ignoreCount &gt; 0">Ignored</xsl:when>
             <xsl:otherwise>Pass</xsl:otherwise>
           </xsl:choose>
         </xsl:attribute>
@@ -207,6 +215,9 @@
         </td>
         <td>
           <xsl:value-of select="$failureCount"/>
+        </td>
+        <td>
+          <xsl:value-of select="$errorCount"/>
         </td>
         <td>
           <xsl:value-of select="$ignoreCount"/>
@@ -222,19 +233,27 @@
               <xsl:attribute name="style">
                 width:<xsl:value-of select="round($runCount * 200 div $total )"/>px
               </xsl:attribute>
+              <xsl:attribute name="title">
+                <xsl:text>Success</xsl:text>
+              </xsl:attribute>
               <xsl:call-template name="for.loop">
                 <xsl:with-param name="i">1</xsl:with-param>
                 <xsl:with-param name="count">
                   <xsl:value-of select="round($runCount * 10 div $total )"/>
                 </xsl:with-param>
               </xsl:call-template>
+              <xsl:text> </xsl:text>
             </span>
           </xsl:if>
-          <xsl:if test="round($ignoreCount * 200 div $total )!=0">
+          <xsl:if test="round($errorCount * 200 div $total )!=0">
             <span class="ignored">
               <xsl:attribute name="style">
-                width:<xsl:value-of select="round($ignoreCount * 200 div $total )"/>px
+                width:<xsl:value-of select="round($errorCount * 200 div $total )"/>px
               </xsl:attribute>
+              <xsl:attribute name="title">
+                <xsl:text>Errors</xsl:text>
+              </xsl:attribute>
+              <xsl:text> </xsl:text>
             </span>
           </xsl:if>
           <xsl:if test="round($failureCount * 200 div $total )!=0">
@@ -242,12 +261,16 @@
               <xsl:attribute name="style">
                 width:<xsl:value-of select="round($failureCount * 200 div $total )"/>px
               </xsl:attribute>
+              <xsl:attribute name="title">
+                <xsl:text>Failures</xsl:text>
+              </xsl:attribute>
               <xsl:call-template name="for.loop">
                 <xsl:with-param name="i">1</xsl:with-param>
                 <xsl:with-param name="count">
                   <xsl:value-of select="round($runCount * 10 div $total )"/>
                 </xsl:with-param>
               </xsl:call-template>
+              <xsl:text> </xsl:text>
             </span>
           </xsl:if>
         </td>
